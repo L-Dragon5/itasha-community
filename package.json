@@ -26,12 +26,16 @@
         "react-dom": "^17.0.2"
     },
     "dependencies": {
+        "@chakra-ui/icons": "^1.1.1",
+        "@chakra-ui/provider": "^1.7.2",
         "@chakra-ui/react": "^1.7.3",
         "@emotion/react": "^11.7.1",
         "@emotion/styled": "^11.6.0",
         "@inertiajs/inertia": "^0.10.1",
         "@inertiajs/inertia-react": "^0.7.1",
         "@inertiajs/progress": "^0.2.6",
-        "framer-motion": "^4.1.17"
+        "framer-motion": "^4.1.17",
+        "prop-types": "^15.8.0",
+        "react-icons": "^4.3.1"
     }
 }
