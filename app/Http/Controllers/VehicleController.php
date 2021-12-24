@@ -34,7 +34,13 @@ class VehicleController extends Controller
      */
     public function adminIndex()
     {
-        
+        $vehicles = Vehicle::where('is_approved', false)
+            ->orderBy('created_at')
+            ->get();
+
+        return Inertia::render('Admin/Vehicles', [
+            'vehicles' => $vehicles,
+        ]);
     }
 
     /**
@@ -62,17 +68,6 @@ class VehicleController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Vehicle  $vehicle
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Vehicle $vehicle)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\UpdateVehicleRequest  $request
@@ -81,7 +76,9 @@ class VehicleController extends Controller
      */
     public function update(UpdateVehicleRequest $request, Vehicle $vehicle)
     {
-        //
+        $vehicle->update(array_merge($request->validated(), ['is_approved' => 1]));
+
+        return redirect()->back()->with('success', 'Successfully approved vehicle');
     }
 
     /**
@@ -92,6 +89,8 @@ class VehicleController extends Controller
      */
     public function destroy(Vehicle $vehicle)
     {
-        //
+        $vehicle->delete();
+
+        return redirect()->back()->with('success', 'Successfully deleted vehicle');
     }
 }

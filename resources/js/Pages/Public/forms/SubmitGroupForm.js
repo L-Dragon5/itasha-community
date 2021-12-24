@@ -45,7 +45,7 @@ const SubmitGroupForm = ({ onClose }) => {
           <Input
             value={data.name}
             onChange={(e) => setData('name', e.target.value)}
-            placeholder="Designer's name"
+            placeholder="Group's name"
             data-cy="name-input"
           />
           <FormErrorMessage>{errors?.name}</FormErrorMessage>
@@ -55,7 +55,7 @@ const SubmitGroupForm = ({ onClose }) => {
           <Input
             value={data.location}
             onChange={(e) => setData('location', e.target.value)}
-            placeholder="Designer's location (can just be country)"
+            placeholder="Group's location (can just be country)"
             data-cy="location-input"
           />
           <FormErrorMessage>{errors?.location}</FormErrorMessage>

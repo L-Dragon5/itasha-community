@@ -40,6 +40,7 @@ const leftItems = [
     href: '/master',
     logo: <Icon as={AiOutlineHome} />,
     label: 'Audit Log',
+    base: 'home',
   },
   {
     href: '/master/vehicles',
@@ -71,7 +72,7 @@ const leftItems = [
 const NavItem = ({ href, logo, label, base }) => {
   let { url } = usePage(); // Get current url of page.
 
-  if (url === '/') {
+  if (url === '/' || url === '/master') {
     url = 'home';
   }
 

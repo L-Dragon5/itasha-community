@@ -19,5 +19,6 @@ class Vehicle extends Model
       'state',
       'country',
       'instagram',
+      'is_approved',
     ];
 }

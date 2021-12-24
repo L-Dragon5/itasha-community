@@ -32,7 +32,13 @@ class GroupController extends Controller
      */
     public function adminIndex()
     {
-        
+        $groups = Group::where('is_approved', false)
+            ->orderBy('created_at')
+            ->get();
+
+        return Inertia::render('Admin/Groups', [
+            'groups' => $groups,
+        ]);
     }
 
     /**
@@ -60,17 +66,6 @@ class GroupController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Group  $group
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Group $group)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\UpdateGroupRequest  $request
@@ -79,7 +74,9 @@ class GroupController extends Controller
      */
     public function update(UpdateGroupRequest $request, Group $group)
     {
-        //
+        $group->update(array_merge($request->validated(), ['is_approved' => 1]));
+
+        return redirect()->back()->with('success', 'Successfully approved group');
     }
 
     /**
@@ -90,6 +87,8 @@ class GroupController extends Controller
      */
     public function destroy(Group $group)
     {
-        //
+        $group->delete();
+
+        return redirect()->back()->with('success', 'Successfully deleted group');
     }
 }

@@ -51,7 +51,7 @@ const Groups = ({ groups }) => {
                 <Td>{g.exclusivity}</Td>
                 <Td>{g.notes}</Td>
                 <Td>
-                  {d.instagram && (
+                  {g.instagram && (
                     <Link
                       href={`https://instagram.com/${d.instagram}`}
                       target="_blank"

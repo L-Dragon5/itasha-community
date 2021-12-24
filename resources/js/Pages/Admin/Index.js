@@ -1,7 +1,7 @@
 import { Box, Flex, Heading, Text, useColorModeValue } from '@chakra-ui/react';
 import React from 'react';
 
-import BaseLayout from './AdminLayout';
+import AdminLayout from './AdminLayout';
 
 const Index = () => (
   <Flex flexGrow={1} direction="column">
@@ -22,6 +22,6 @@ const Index = () => (
   </Flex>
 );
 
-Index.layout = (page) => <BaseLayout title="Home">{page}</BaseLayout>;
+Index.layout = (page) => <AdminLayout title="Home">{page}</AdminLayout>;
 
 export default Index;

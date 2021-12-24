@@ -13,7 +13,7 @@ class UpdateGroupRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,11 @@ class UpdateGroupRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => 'required|string',
+            'location' => 'required|string',
+            'exclusivity' => 'required|in:public,private',
+            'notes' => 'string|nullable',
+            'instagram' => 'string|nullable',
         ];
     }
 }
