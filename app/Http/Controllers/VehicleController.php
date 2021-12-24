@@ -16,34 +16,15 @@ class VehicleController extends Controller
      */
     public function index()
     {
-      $vehicles = [
-        [
-          'id' => 1,
-          'vehicle_type' => 'car',
-          'series' => 'Symphogear',
-          'character' => 'Maria Cadenzavna Eve',
-          'vehicle_information' => '2019 Honda Civic Type R',
-          'designer' => '@mochiwrapz',
-          'city' => 'Rockville',
-          'state' => 'Maryland',
-          'country' => 'USA',
-          'instagram' => 'mochiwrapz'
-        ],
-      ];
+        $vehicles = Vehicle::where('is_approved', true)
+            ->orderBy('vehicle_type')
+            ->orderBy('series')
+            ->orderBy('character')
+            ->get();
 
-      return Inertia::render('Public/Vehicles', [
-        'vehicles' => $vehicles,
-      ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return Inertia::render('Public/Vehicles', [
+            'vehicles' => $vehicles,
+        ]);
     }
 
     /**
@@ -54,7 +35,9 @@ class VehicleController extends Controller
      */
     public function store(StoreVehicleRequest $request)
     {
-        //
+        $vehicle = Vehicle::create($request->validated());
+
+        return redirect()->back()->with('success', 'Successfully submitted vehicle');
     }
 
     /**

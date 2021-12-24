@@ -13,9 +13,9 @@ import React from 'react';
 import Button from '../components/Button';
 
 /*
-  Business Data form component.
+  New vehicle submission form component.
 */
-const SubmitVehicleForm = () => {
+const SubmitVehicleForm = ({ onClose }) => {
   const { data, setData, post, processing, errors, reset } = useForm(
     {
       vehicleType: '',
@@ -33,19 +33,26 @@ const SubmitVehicleForm = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    // post('/vehicles/store');
-    console.log(data);
-    reset();
+    post('/vehicles', {
+      onSuccess: () => {
+        reset();
+        onClose();
+      },
+    });
   };
 
   return (
     <form onSubmit={onSubmit}>
       <HStack my={4} spacing={4}>
-        <FormControl id="vehicle-type" isInvalid={!!errors?.vehicleType}>
+        <FormControl
+          id="vehicleType"
+          isInvalid={!!errors?.vehicleType}
+          isRequired
+        >
           <FormLabel>Vehicle Type</FormLabel>
           <Select
             value={data.vehicleType}
-            onChange={(e) => setData('vehicleType', e)}
+            onChange={(e) => setData('vehicleType', e.target.value)}
           >
             <option value="">-- Select an Option --</option>
             <option value="car">Car</option>
@@ -54,38 +61,38 @@ const SubmitVehicleForm = () => {
             <option value="other">Other</option>
           </Select>
         </FormControl>
-        <FormControl id="vehicle-info" isInvalid={!!errors?.vehicleInfo}>
-          <FormLabel>Vehicle Info</FormLabel>
+        <FormControl id="vehicleInfo" isInvalid={!!errors?.vehicleInfo}>
+          <FormLabel>Vehicle Information</FormLabel>
           <Input
             value={data.vehicleInfo}
             onChange={(e) => setData('vehicleInfo', e.target.value)}
-            placeholder="Vehicle information"
+            placeholder="Year, Make, Model, etc."
             data-cy="vehicle-info-input"
           />
-          <FormErrorMessage>{errors?.vehicleInfo?.message}</FormErrorMessage>
+          <FormErrorMessage>{errors?.vehicleInfo}</FormErrorMessage>
         </FormControl>
       </HStack>
 
       <HStack my={4} spacing={4}>
-        <FormControl id="series" isInvalid={!!errors?.series}>
+        <FormControl id="series" isInvalid={!!errors?.series} isRequired>
           <FormLabel>Series</FormLabel>
           <Input
             value={data.series}
             onChange={(e) => setData('series', e.target.value)}
-            placeholder="Series name"
+            placeholder="Ex: Re:Zero"
             data-cy="series-input"
           />
-          <FormErrorMessage>{errors?.series?.message}</FormErrorMessage>
+          <FormErrorMessage>{errors?.series}</FormErrorMessage>
         </FormControl>
         <FormControl id="character" isInvalid={!!errors?.character}>
           <FormLabel>Character</FormLabel>
           <Input
             value={data.character}
             onChange={(e) => setData('character', e.target.value)}
-            placeholder="Character name"
+            placeholder="Ex: Rem"
             data-cy="character-input"
           />
-          <FormErrorMessage>{errors?.character?.message}</FormErrorMessage>
+          <FormErrorMessage>{errors?.character}</FormErrorMessage>
         </FormControl>
       </HStack>
 
@@ -95,30 +102,30 @@ const SubmitVehicleForm = () => {
           <Input
             value={data.city}
             onChange={(e) => setData('city', e.target.value)}
-            placeholder="City"
+            placeholder="ex: Los Angeles"
             data-cy="city-input"
           />
-          <FormErrorMessage>{errors?.city?.message}</FormErrorMessage>
+          <FormErrorMessage>{errors?.city}</FormErrorMessage>
         </FormControl>
         <FormControl id="state" isInvalid={!!errors?.state}>
           <FormLabel>State/Province</FormLabel>
           <Input
             value={data.state}
             onChange={(e) => setData('state', e.target.value)}
-            placeholder="State/Province"
+            placeholder="ex: California"
             data-cy="state-input"
           />
-          <FormErrorMessage>{errors?.state?.message}</FormErrorMessage>
+          <FormErrorMessage>{errors?.state}</FormErrorMessage>
         </FormControl>
-        <FormControl id="country" isInvalid={!!errors?.country}>
+        <FormControl id="country" isInvalid={!!errors?.country} isRequired>
           <FormLabel>Country</FormLabel>
           <Input
             value={data.country}
             onChange={(e) => setData('country', e.target.value)}
-            placeholder="Country"
+            placeholder="ex: USA"
             data-cy="country-input"
           />
-          <FormErrorMessage>{errors?.country?.message}</FormErrorMessage>
+          <FormErrorMessage>{errors?.country}</FormErrorMessage>
         </FormControl>
       </HStack>
 
@@ -131,7 +138,7 @@ const SubmitVehicleForm = () => {
             placeholder="Designer"
             data-cy="designer-input"
           />
-          <FormErrorMessage>{errors?.designer?.message}</FormErrorMessage>
+          <FormErrorMessage>{errors?.designer}</FormErrorMessage>
         </FormControl>
 
         <FormControl id="instagram" isInvalid={!!errors?.instagram}>
@@ -142,7 +149,7 @@ const SubmitVehicleForm = () => {
             placeholder="Instagram"
             data-cy="instagram-input"
           />
-          <FormErrorMessage>{errors?.instagram?.message}</FormErrorMessage>
+          <FormErrorMessage>{errors?.instagram}</FormErrorMessage>
         </FormControl>
       </HStack>
 

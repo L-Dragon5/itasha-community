@@ -1,33 +1,39 @@
+import { AddIcon } from '@chakra-ui/icons';
 import {
   Box,
   Flex,
-  Grid,
-  GridItem,
-  Heading,
   Icon,
+  Link,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Table,
-  TableCaption,
   Tbody,
   Td,
   Text,
   Th,
   Thead,
   Tr,
+  useDisclosure,
 } from '@chakra-ui/react';
 import React, { useMemo } from 'react';
 import { AiOutlineInstagram } from 'react-icons/ai';
 
 import BaseLayout from './BaseLayout';
+import Button from './components/Button';
 import SubmitVehicleForm from './forms/SubmitVehicleForm';
 
 const Vehicles = ({ vehicles }) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const TableView = () => {
     return useMemo(
       () => (
-        <Table variant="striped">
-          <TableCaption>
-            List of known itasha vehicles (alphabetical by series)
-          </TableCaption>
+        <Table variant="striped" colorScheme="blue" size="lg">
           <Thead>
             <Tr>
               <Th>Vehicle Type</Th>
@@ -36,9 +42,7 @@ const Vehicles = ({ vehicles }) => {
               <Th>Character</Th>
               <Th>Location</Th>
               <Th>Designer</Th>
-              <Th>
-                <Icon as={AiOutlineInstagram} boxSize={7} />
-              </Th>
+              <Th>Social Media</Th>
             </Tr>
           </Thead>
           <Tbody>
@@ -48,9 +52,20 @@ const Vehicles = ({ vehicles }) => {
                 <Td>{v.vehicle_information}</Td>
                 <Td>{v.series}</Td>
                 <Td>{v.character}</Td>
-                <Td>{`${v.city}, ${v.state}, ${v.country}`}</Td>
+                <Td>
+                  {[v.city, v.state, v.country].filter(Boolean).join(', ')}
+                </Td>
                 <Td>{v.designer}</Td>
-                <Td>{v.instagram}</Td>
+                <Td>
+                  {v.instagram && (
+                    <Link
+                      href={`https://instagram.com/${v.instagram}`}
+                      target="_blank"
+                    >
+                      <Icon as={AiOutlineInstagram} boxSize={7} />
+                    </Link>
+                  )}
+                </Td>
               </Tr>
             ))}
           </Tbody>
@@ -61,21 +76,38 @@ const Vehicles = ({ vehicles }) => {
   };
 
   return (
-    <Grid gap={4} templateRows="3fr 1fr" maxWidth="full">
-      <GridItem overflow="auto">
-        <Heading>Itasha Map</Heading>
-        <Box overflow="auto">
-          <TableView />
-        </Box>
-      </GridItem>
-      <GridItem backgroundColor="gray.50" borderRadius="base" p={2}>
-        <Heading as="h2" size="lg">
-          Submit Vehicle
-        </Heading>
-        <Text>Help grow our database of itashas worldwide</Text>
-        <SubmitVehicleForm />
-      </GridItem>
-    </Grid>
+    <Flex flexGrow={1} maxWidth="full" direction="column">
+      <Box overflow="auto" flexGrow={1}>
+        <TableView />
+      </Box>
+
+      <Button
+        h={20}
+        w="full"
+        borderRadius="none"
+        leftIcon={<AddIcon />}
+        onClick={onOpen}
+      >
+        Add Vehicle
+      </Button>
+      <Modal isOpen={isOpen} onClose={onClose} size="2xl">
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Add Vehicle Submission</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Text>Help grow our database of itashas worldwide.</Text>
+            <SubmitVehicleForm onClose={onClose} />
+          </ModalBody>
+          <ModalFooter>
+            <Text>
+              Please wait for your submission to be added, all submissions are
+              manually approved.
+            </Text>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </Flex>
   );
 };
 

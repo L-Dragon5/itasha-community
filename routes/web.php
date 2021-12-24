@@ -3,6 +3,8 @@
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\VehicleController;
+use App\Http\Controllers\DesignerController;
+use App\Http\Controllers\GroupController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,6 +18,9 @@ use App\Http\Controllers\VehicleController;
 */
 
 Route::get('/', fn() => Inertia::render('Public/Index'));
-Route::get('/vehicles', [VehicleController::class, 'index']);
-Route::get('/designers', fn() => Inertia::render('Public/Designers'));
+
+Route::resource('vehicles', VehicleController::class);
+Route::resource('designers', DesignerController::class);
+Route::resource('groups', GroupController::class);
+
 Route::get('/resources', fn() => Inertia::render('Public/Resources'));

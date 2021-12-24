@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Designer;
 use App\Http\Requests\StoreDesignerRequest;
 use App\Http\Requests\UpdateDesignerRequest;
+use Inertia\Inertia;
 
 class DesignerController extends Controller
 {
@@ -15,17 +16,13 @@ class DesignerController extends Controller
      */
     public function index()
     {
-        //
-    }
+        $designers = Designer::where('is_approved', true)
+            ->orderBy('name')
+            ->get();
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return Inertia::render('Public/Designers', [
+            'designers' => $designers,
+        ]);
     }
 
     /**
@@ -36,7 +33,9 @@ class DesignerController extends Controller
      */
     public function store(StoreDesignerRequest $request)
     {
-        //
+        $designer = Designer::create($request->validated());
+
+        return redirect()->back()->with('success', 'Successfully submitted designer');
     }
 
     /**

@@ -15,15 +15,16 @@ class CreateVehiclesTable extends Migration
     {
         Schema::create('vehicles', function (Blueprint $table) {
             $table->id();
-            $table->enum('vehicle_type', ['car', 'motorcycle', 'bike', 'other']);
+            $table->enum('vehicle_type', ['car', 'motorcycle', 'bicycle', 'other']);
+            $table->string('vehicle_information')->nullable();
             $table->string('series');
-            $table->string('character');
-            $table->string('vehicle_information');
-            $table->string('designer');
-            $table->string('city');
-            $table->string('state');
+            $table->string('character')->nullable();
+            $table->string('city')->nullable();
+            $table->string('state')->nullable();
             $table->string('country');
-            $table->string('instagram');
+            $table->string('designer')->nullable();
+            $table->string('instagram')->nullable();
+            $table->boolean('is_approved')->default(false);
             $table->timestamps();
         });
     }

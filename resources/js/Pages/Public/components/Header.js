@@ -1,3 +1,4 @@
+import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 import {
   Box,
   Drawer,
@@ -9,8 +10,11 @@ import {
   Icon,
   IconButton,
   Link,
+  Spacer,
   Text,
   useBreakpointValue,
+  useColorMode,
+  useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react';
 import { InertiaLink, usePage } from '@inertiajs/inertia-react';
@@ -22,6 +26,7 @@ import {
   AiOutlineFormatPainter,
   AiOutlineHome,
   AiOutlineMenu,
+  AiOutlineUsergroupAdd,
 } from 'react-icons/ai';
 
 /*
@@ -46,6 +51,11 @@ const leftItems = [
     href: '/designers',
     logo: <Icon as={AiOutlineFormatPainter} />,
     label: 'Designers',
+  },
+  {
+    href: '/groups',
+    logo: <Icon as={AiOutlineUsergroupAdd} />,
+    label: 'Groups & Clubs',
   },
   { href: '/resources', logo: <Icon as={AiOutlineBars} />, label: 'Resources' },
 ];
@@ -75,7 +85,7 @@ const NavItem = ({ href, logo, label, side, base }) => {
     >
       <Flex direction="column" align="center" justify="center">
         <Box fontSize="1.5em">{logo}</Box>
-        <Text align="center" fontSize="sm">
+        <Text align="center" fontSize="md">
           {label}
         </Text>
       </Flex>
@@ -90,6 +100,7 @@ const NavItem = ({ href, logo, label, side, base }) => {
   Able to choose from a vertical or horizontal navbar.
 */
 const Header = ({ side }) => {
+  const { colorMode, toggleColorMode } = useColorMode();
   const mobile = useBreakpointValue({ base: true, lg: false }, 'base'); // Finds whether we're on mobile via theme breakpoints.
   const { isOpen, onOpen, onClose } = useDisclosure(); // Status for drawer for mobile navigation.
   const mobileDrawerRef = React.useRef();
@@ -99,16 +110,17 @@ const Header = ({ side }) => {
     return (
       <Box
         as="nav"
-        bg="brandPrimary.500"
+        bg={useColorModeValue('teal.400', 'teal.800')}
         color="white"
         aria-label="Main Navigation"
       >
         <Flex direction="column" height="100%" alignItems="center">
           <IconButton
             ref={mobileDrawerRef}
-            colorScheme="brandPrimary"
+            colorScheme="teal"
             aria-label="Open navigation drawer"
             icon={<AiOutlineMenu />}
+            m={4}
             onClick={onOpen}
           />
           <Drawer
@@ -131,6 +143,13 @@ const Header = ({ side }) => {
                     base={obj.base}
                   />
                 ))}
+                <Spacer />
+                <IconButton
+                  aria-label="Change theme color"
+                  colorScheme="teal"
+                  onClick={toggleColorMode}
+                  icon={colorMode === 'light' ? <SunIcon /> : <MoonIcon />}
+                />
               </DrawerBody>
             </DrawerContent>
           </Drawer>
@@ -143,11 +162,11 @@ const Header = ({ side }) => {
   return (
     <Box
       as="nav"
-      bg="brandPrimary.500"
+      bg={useColorModeValue('teal.400', 'teal.800')}
       color="white"
       aria-label="Main Navigation"
     >
-      <Flex direction="column" height="100%" alignItems="center">
+      <Flex direction="column" width={150} height="100%" alignItems="center">
         {leftItems.map((obj) => (
           <NavItem
             key={obj.label}
@@ -158,6 +177,14 @@ const Header = ({ side }) => {
             base={obj.base}
           />
         ))}
+        <Spacer />
+        <IconButton
+          aria-label="Change theme color"
+          colorScheme="teal"
+          onClick={toggleColorMode}
+          icon={colorMode === 'light' ? <SunIcon /> : <MoonIcon />}
+          mb={4}
+        />
       </Flex>
     </Box>
   );

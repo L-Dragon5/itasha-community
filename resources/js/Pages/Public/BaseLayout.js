@@ -29,14 +29,24 @@ const BaseLayout = ({ title, children }) => {
       });
       flash.success = '';
     }
-  }, [flash?.success]);
+
+    if (flash?.error?.length > 0) {
+      toast({
+        title: 'Error',
+        description: flash?.error,
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+  }, [flash?.success, flash?.error]);
 
   return (
     <Flex direction="row" minHeight="100vh" maxHeight="100vh">
       <Head title={`${title} - Itasha Community`} />
 
       <Header side />
-      <Flex as="main" flexGrow={1} p={3} overflow="auto">
+      <Flex as="main" flexGrow={1} overflow="auto">
         {children}
       </Flex>
     </Flex>
