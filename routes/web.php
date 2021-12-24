@@ -24,3 +24,10 @@ Route::resource('designers', DesignerController::class);
 Route::resource('groups', GroupController::class);
 
 Route::get('/resources', fn() => Inertia::render('Public/Resources'));
+
+Route::prefix('master')->middleware(['auth.basic'])->group(function() {
+    Route::get('/', fn() => Inertia::render('Admin/Index'));
+    Route::get('/vehicles', [VehicleController::class, 'adminIndex']);
+    Route::get('/designers', [DesignerController::class, 'adminIndex']);
+    Route::get('/groups', [GroupController::class, 'adminIndex']);
+});

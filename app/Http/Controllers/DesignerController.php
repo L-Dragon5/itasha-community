@@ -26,6 +26,16 @@ class DesignerController extends Controller
     }
 
     /**
+     * Display a listing of the resource on admin page.
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function adminIndex()
+    {
+        
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\StoreDesignerRequest  $request

@@ -65,7 +65,7 @@ const leftItems = [
 
   Separated as to use InertiaLink more easily with a custom styling.
 */
-const NavItem = ({ href, logo, label, side, base }) => {
+const NavItem = ({ href, logo, label, base }) => {
   let { url } = usePage(); // Get current url of page.
 
   if (url === '/') {
@@ -79,7 +79,7 @@ const NavItem = ({ href, logo, label, side, base }) => {
       px={4}
       py={2}
       variant="navigation"
-      w={side ? '100%' : 'auto'}
+      w="full"
       className={url.startsWith(base || href) ? 'active' : ''}
       data-cy={`header${href.replaceAll('/', '-')}`}
     >
@@ -99,7 +99,7 @@ const NavItem = ({ href, logo, label, side, base }) => {
   Displays different size depending if user is logged in or not.
   Able to choose from a vertical or horizontal navbar.
 */
-const Header = ({ side }) => {
+const Header = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const mobile = useBreakpointValue({ base: true, lg: false }, 'base'); // Finds whether we're on mobile via theme breakpoints.
   const { isOpen, onOpen, onClose } = useDisclosure(); // Status for drawer for mobile navigation.
@@ -139,7 +139,6 @@ const Header = ({ side }) => {
                     href={obj.href}
                     logo={obj.logo}
                     label={obj.label}
-                    side={side}
                     base={obj.base}
                   />
                 ))}
@@ -173,7 +172,6 @@ const Header = ({ side }) => {
             href={obj.href}
             logo={obj.logo}
             label={obj.label}
-            side={side}
             base={obj.base}
           />
         ))}
@@ -194,20 +192,11 @@ NavItem.propTypes = {
   href: PropTypes.string.isRequired,
   logo: PropTypes.node.isRequired,
   label: PropTypes.string.isRequired,
-  side: PropTypes.bool.isRequired,
   base: PropTypes.string,
 };
 
 NavItem.defaultProps = {
   base: null,
-};
-
-Header.propTypes = {
-  side: PropTypes.bool,
-};
-
-Header.defaultProps = {
-  side: false,
 };
 
 export default Header;
