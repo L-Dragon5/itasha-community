@@ -27,18 +27,23 @@ const SubmitVehicleForm = ({ onClose }) => {
       country: '',
       designer: '',
       instagram: '',
+      coverImage: '',
     },
     'SubmitVehicle',
   );
 
   const onSubmit = (e) => {
     e.preventDefault();
-    post('/vehicles', {
-      onSuccess: () => {
-        reset();
-        onClose();
+    post(
+      '/vehicles',
+      {
+        onSuccess: () => {
+          reset();
+          onClose();
+        },
       },
-    });
+      { forceFormData: true },
+    );
   };
 
   return (
@@ -154,7 +159,16 @@ const SubmitVehicleForm = ({ onClose }) => {
       </HStack>
 
       <HStack my={4} spacing={4}>
-        File Upload
+        <FormControl id="coverImage" isInvalid={!!errors?.coverImage}>
+          <FormLabel>Cover Image</FormLabel>
+          <Input
+            variant="flushed"
+            onChange={(e) => setData('coverImage', e.target.files[0])}
+            type="file"
+            accept="image/*"
+          />
+          <FormErrorMessage>{errors?.coverImage}</FormErrorMessage>
+        </FormControl>
       </HStack>
 
       <Button leftIcon={<AddIcon />} isLoading={processing} type="submit">

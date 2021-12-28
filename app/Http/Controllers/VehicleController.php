@@ -55,10 +55,10 @@ class VehicleController extends Controller
         $vehicle = Vehicle::create($validated);
 
         // Check if a cover image has been uploaded.
-        if (!empty($validated['cover_image'])) {
+        if (!empty($validated['coverImage'])) {
             // Create image and resize image down if necessary.
-            $img = \Image::make($validated['cover_image'])
-                ->resize(1000, null, function ($constraint) {
+            $img = \Image::make($validated['coverImage'])
+                ->resize(800, null, function ($constraint) {
                     $constraint->aspectRatio();
                     $constraint->upsize();
                 })
@@ -67,6 +67,7 @@ class VehicleController extends Controller
             $path = "cover_images/$name";
             if (Storage::disk('public')->put($path, $img->__toString())) {
                 $vehicle->cover_image = $path;
+                $vehicle->save();
             }
         }
 
@@ -102,8 +103,8 @@ class VehicleController extends Controller
             $old_image = $album->cover_image;
 
             // Create image and resize image down if necessary.
-            $img = \Image::make($validated['cover_image'])
-                ->resize(1000, null, function ($constraint) {
+            $img = \Image::make($validated['coverImage'])
+                ->resize(800, null, function ($constraint) {
                     $constraint->aspectRatio();
                     $constraint->upsize();
                 })
@@ -112,6 +113,7 @@ class VehicleController extends Controller
             $path = "cover_images/$name";
             if (Storage::disk('public')->put($path, $img->__toString())) {
                 $vehicle->cover_image = $path;
+                $vehicle->save();
             }
 
             // Delete old cover image.

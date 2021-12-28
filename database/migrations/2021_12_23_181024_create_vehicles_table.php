@@ -24,6 +24,7 @@ class CreateVehiclesTable extends Migration
             $table->string('country');
             $table->string('designer')->nullable();
             $table->string('instagram')->nullable();
+            $table->string('cover_image')->nullable();
             $table->boolean('is_approved')->default(false);
             $table->timestamps();
         });
