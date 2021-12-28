@@ -33,6 +33,7 @@ class StoreVehicleRequest extends FormRequest
             'country' => 'required|string',
             'designer' => 'string|nullable',
             'instagram' => 'string|nullable',
+            'coverImage' => 'image|nullable',
         ];
     }
 }

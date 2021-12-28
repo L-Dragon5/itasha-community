@@ -153,6 +153,10 @@ const SubmitVehicleForm = ({ onClose }) => {
         </FormControl>
       </HStack>
 
+      <HStack my={4} spacing={4}>
+        File Upload
+      </HStack>
+
       <Button leftIcon={<AddIcon />} isLoading={processing} type="submit">
         Submit
       </Button>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Vehicle;
 use App\Http\Requests\StoreVehicleRequest;
 use App\Http\Requests\UpdateVehicleRequest;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class VehicleController extends Controller
@@ -34,8 +35,7 @@ class VehicleController extends Controller
      */
     public function adminIndex()
     {
-        $vehicles = Vehicle::where('is_approved', false)
-            ->orderBy('created_at')
+        $vehicles = Vehicle::orderBy('created_at')
             ->get();
 
         return Inertia::render('Admin/Vehicles', [
@@ -51,7 +51,24 @@ class VehicleController extends Controller
      */
     public function store(StoreVehicleRequest $request)
     {
-        $vehicle = Vehicle::create($request->validated());
+        $validated = $request->validated();
+        $vehicle = Vehicle::create($validated);
+
+        // Check if a cover image has been uploaded.
+        if (!empty($validated['cover_image'])) {
+            // Create image and resize image down if necessary.
+            $img = \Image::make($validated['cover_image'])
+                ->resize(1000, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                })
+                ->encode('webp');
+            $name = md5($img->__toString()) . '.webp';
+            $path = "cover_images/$name";
+            if (Storage::disk('public')->put($path, $img->__toString())) {
+                $vehicle->cover_image = $path;
+            }
+        }
 
         return redirect()->back()->with('success', 'Successfully submitted vehicle');
     }
@@ -76,7 +93,30 @@ class VehicleController extends Controller
      */
     public function update(UpdateVehicleRequest $request, Vehicle $vehicle)
     {
-        $vehicle->update(array_merge($request->validated(), ['is_approved' => 1]));
+        $validated = $request->validated();
+        $vehicle->update(array_merge($validated, ['is_approved' => 1]));
+
+        // Check if a cover image has been uploaded.
+        if (!empty($validated['coverImage'])) {
+            // Retrieve old image and prepare for deletion.
+            $old_image = $album->cover_image;
+
+            // Create image and resize image down if necessary.
+            $img = \Image::make($validated['cover_image'])
+                ->resize(1000, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                })
+                ->encode('webp');
+            $name = md5($img->__toString()) . '.webp';
+            $path = "cover_images/$name";
+            if (Storage::disk('public')->put($path, $img->__toString())) {
+                $vehicle->cover_image = $path;
+            }
+
+            // Delete old cover image.
+            Storage::disk('public')->delete($old_image);
+        }
 
         return redirect()->back()->with('success', 'Successfully approved vehicle');
     }
