@@ -1,5 +1,6 @@
 import {
   Box,
+  Center,
   Container,
   Flex,
   Heading,
@@ -13,22 +14,39 @@ import BaseLayout from './BaseLayout';
 const Index = () => (
   <Flex flexGrow={1} direction="column">
     <Flex
-      p={4}
-      h={400}
+      flexGrow={1}
       direction="column"
-      justifyContent="center"
       alignItems="center"
+      justifyContent="center"
+      position="relative"
     >
-      <Heading as="h1" size="2xl" textAlign="center">
-        Welcome
-      </Heading>
-      <Heading as="h2" size="lg" textAlign="center">
-        The starting point
-      </Heading>
-    </Flex>
-
-    <Flex flexGrow={1} direction="column">
-      Something
+      <Flex
+        h="full"
+        w="full"
+        backgroundImage="/storage/car-background.jpg"
+        backgroundSize="cover"
+        backgroundRepeat="no-repeat"
+        backgroundPosition="center"
+        filter="blur(8px) brightness(0.3)"
+      />
+      <Flex
+        as={Center}
+        h="full"
+        position="absolute"
+        direction="column"
+        justifyContent="space-around"
+        color="white"
+      >
+        <Heading variant="h4" size="xl">
+          A growing database of itashas around the world
+        </Heading>
+        <Heading variant="h4" size="xl">
+          Designers and resources for your next project
+        </Heading>
+        <Heading variant="h4" size="xl">
+          Find a local group
+        </Heading>
+      </Flex>
     </Flex>
 
     <Box bg={useColorModeValue('gray.100', 'gray.600')} p={3}>

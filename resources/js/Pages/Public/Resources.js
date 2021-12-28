@@ -4,15 +4,21 @@ import React from 'react';
 import BaseLayout from './BaseLayout';
 
 const Resources = () => (
-  <SimpleGrid flexGrow={1} columns={{ base: 2, lg: 3 }} p={3} spacing={3}>
+  <SimpleGrid p={3} flexGrow={1} columns={{ base: 2, lg: 3 }} p={3} spacing={3}>
     <Flex>
-      <Heading>Tutorials</Heading>
+      <Heading textAlign="center" w="full">
+        Tutorials
+      </Heading>
     </Flex>
     <Flex>
-      <Heading>Helpful Tools</Heading>
+      <Heading textAlign="center" w="full">
+        Helpful Tools
+      </Heading>
     </Flex>
     <Flex>
-      <Heading>Media</Heading>
+      <Heading textAlign="center" w="full">
+        Media
+      </Heading>
     </Flex>
   </SimpleGrid>
 );
