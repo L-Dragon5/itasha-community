@@ -19,6 +19,8 @@ class Vehicle extends Model
         'city',
         'state',
         'country',
+        'lng',
+        'lat',
         'instagram',
         'is_approved',
         'cover_image',

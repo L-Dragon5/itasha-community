@@ -1,3 +1,5 @@
+import 'regenerator-runtime/runtime';
+
 import { SearchIcon, TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
 import {
   AlertDialog,
@@ -22,6 +24,7 @@ import {
   Th,
   Thead,
   Tr,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
 import React, { useMemo, useRef, useState } from 'react';
@@ -186,6 +189,8 @@ const DataTable = ({
     usePagination,
   );
 
+  const backgroundColor = useColorModeValue('white', 'blue.800');
+
   return (
     <>
       {/* Display headerButtons or hide the global filter search */}
@@ -204,9 +209,14 @@ const DataTable = ({
         </Box>
       ) : null}
 
-      <Box ref={parentRef} overflow="auto" maxHeight="550px">
+      <Box ref={parentRef} overflow="auto">
         {/* Main table rendering */}
-        <Table {...getTableProps()} size="sm" variant="striped">
+        <Table
+          {...getTableProps()}
+          colorScheme="blue"
+          size="md"
+          variant="striped"
+        >
           <Thead position="sticky" top={0} zIndex={1}>
             {headerGroups.map((headerGroup) => (
               <Tr {...headerGroup.getHeaderGroupProps()}>
@@ -223,7 +233,7 @@ const DataTable = ({
                         whiteSpace: 'nowrap',
                         minHeight: '30px',
                         title: column.render('Header'),
-                        background: column.backgroundColor ?? 'white',
+                        background: column.backgroundColor ?? backgroundColor,
                         userSelect: 'none',
                       }),
                     )}

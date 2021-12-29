@@ -22,6 +22,8 @@ class CreateVehiclesTable extends Migration
             $table->string('city')->nullable();
             $table->string('state')->nullable();
             $table->string('country');
+            $table->decimal('lng', 10, 7)->nullable();
+            $table->decimal('lat', 10, 7)->nullable();
             $table->string('designer')->nullable();
             $table->string('instagram')->nullable();
             $table->string('cover_image')->nullable();

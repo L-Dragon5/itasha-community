@@ -31,6 +31,8 @@ class UpdateVehicleRequest extends FormRequest
             'city' => 'string|nullable',
             'state' => 'string|nullable',
             'country' => 'required|string',
+            'lat' => 'numeric|nullable',
+            'lng' => 'numeric|nullable',
             'designer' => 'string|nullable',
             'instagram' => 'string|nullable',
             'coverImage' => 'image|nullable',

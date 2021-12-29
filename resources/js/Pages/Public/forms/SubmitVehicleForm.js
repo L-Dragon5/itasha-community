@@ -8,7 +8,8 @@ import {
   Select,
 } from '@chakra-ui/react';
 import { useForm } from '@inertiajs/inertia-react';
-import React from 'react';
+import { City, Country, State } from 'country-state-city';
+import React, { useEffect } from 'react';
 
 import Button from '../components/Button';
 
@@ -25,6 +26,8 @@ const SubmitVehicleForm = ({ onClose }) => {
       city: '',
       state: '',
       country: '',
+      lat: '',
+      lng: '',
       designer: '',
       instagram: '',
       coverImage: '',
@@ -34,6 +37,7 @@ const SubmitVehicleForm = ({ onClose }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
+
     post(
       '/vehicles',
       {
@@ -45,6 +49,39 @@ const SubmitVehicleForm = ({ onClose }) => {
       { forceFormData: true },
     );
   };
+
+  // Get latitude and longitude of location.
+  useEffect(() => {
+    if (data.city !== '') {
+      const cities = City.getCitiesOfState(data.country, data.state);
+      const city = cities.find((c) => c.name === data.city);
+      setData((prevData) => {
+        return {
+          ...prevData,
+          lat: city.latitude,
+          lng: city.longitude,
+        };
+      });
+    } else if (data.state !== '') {
+      const state = State.getStateByCodeAndCountry(data.state, data.country);
+      setData((prevData) => {
+        return {
+          ...prevData,
+          lat: state.latitude,
+          lng: state.longitude,
+        };
+      });
+    } else if (data.country !== '') {
+      const country = Country.getCountryByCode(data.country);
+      setData((prevData) => {
+        return {
+          ...prevData,
+          lat: country.latitude,
+          lng: country.longitude,
+        };
+      });
+    }
+  }, [data.country, data.state, data.city]);
 
   return (
     <form onSubmit={onSubmit}>
@@ -102,35 +139,54 @@ const SubmitVehicleForm = ({ onClose }) => {
       </HStack>
 
       <HStack my={4} spacing={4}>
-        <FormControl id="city" isInvalid={!!errors?.city}>
-          <FormLabel>City</FormLabel>
-          <Input
-            value={data.city}
-            onChange={(e) => setData('city', e.target.value)}
-            placeholder="ex: Los Angeles"
-            data-cy="city-input"
-          />
-          <FormErrorMessage>{errors?.city}</FormErrorMessage>
-        </FormControl>
-        <FormControl id="state" isInvalid={!!errors?.state}>
-          <FormLabel>State/Province</FormLabel>
-          <Input
-            value={data.state}
-            onChange={(e) => setData('state', e.target.value)}
-            placeholder="ex: California"
-            data-cy="state-input"
-          />
-          <FormErrorMessage>{errors?.state}</FormErrorMessage>
-        </FormControl>
         <FormControl id="country" isInvalid={!!errors?.country} isRequired>
           <FormLabel>Country</FormLabel>
-          <Input
+          <Select
             value={data.country}
             onChange={(e) => setData('country', e.target.value)}
-            placeholder="ex: USA"
-            data-cy="country-input"
-          />
+          >
+            <option value="">-- Select an Option --</option>
+            {Country.getAllCountries().map((country) => (
+              <option key={country.isoCode} value={country.isoCode}>
+                {country.name}
+              </option>
+            ))}
+          </Select>
           <FormErrorMessage>{errors?.country}</FormErrorMessage>
+        </FormControl>
+
+        <FormControl id="state" isInvalid={!!errors?.state}>
+          <FormLabel>State/Province</FormLabel>
+          <Select
+            value={data.state}
+            onChange={(e) => setData('state', e.target.value)}
+            isDisabled={data.country === ''}
+          >
+            <option value="">-- Select an Option --</option>
+            {State.getStatesOfCountry(data.country).map((state) => (
+              <option key={state.isoCode} value={state.isoCode}>
+                {state.name}
+              </option>
+            ))}
+          </Select>
+          <FormErrorMessage>{errors?.state}</FormErrorMessage>
+        </FormControl>
+
+        <FormControl id="city" isInvalid={!!errors?.city}>
+          <FormLabel>City</FormLabel>
+          <Select
+            value={data.city}
+            onChange={(e) => setData('city', e.target.value)}
+            isDisabled={data.state === ''}
+          >
+            <option value="">-- Select an Option --</option>
+            {City.getCitiesOfState(data.country, data.state).map((city) => (
+              <option key={city.name} value={city.name}>
+                {city.name}
+              </option>
+            ))}
+          </Select>
+          <FormErrorMessage>{errors?.city}</FormErrorMessage>
         </FormControl>
       </HStack>
 
