@@ -1,4 +1,4 @@
-import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
+import { CheckIcon, DeleteIcon, EditIcon } from '@chakra-ui/icons';
 import {
   AlertDialog,
   AlertDialogBody,
@@ -15,12 +15,6 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
-  Table,
-  Tbody,
-  Td,
-  Th,
-  Thead,
-  Tr,
   useDisclosure,
 } from '@chakra-ui/react';
 import { Inertia } from '@inertiajs/inertia';
@@ -28,6 +22,7 @@ import { useForm } from '@inertiajs/inertia-react';
 import React, { useMemo, useRef, useState } from 'react';
 import { AiOutlineInstagram } from 'react-icons/ai';
 
+import DataTable from '../Public/components/DataTable';
 import AdminLayout from './AdminLayout';
 import Button from './components/Button';
 import UpdateVehicleForm from './forms/UpdateVehicleForm';
@@ -57,6 +52,14 @@ const Vehicles = ({ vehicles }) => {
     onDeleteOpen();
   };
 
+  const onApprove = (id) => {
+    Inertia.patch(`/vehicles/${id}/approve`, {
+      onSuccess: () => {
+        Inertia.reload({ only: ['vehicles'] });
+      },
+    });
+  };
+
   const onDelete = () => {
     inertiaDelete(`/vehicles/${vehicle.id}`, {
       onSuccess: () => {
@@ -66,69 +69,120 @@ const Vehicles = ({ vehicles }) => {
     });
   };
 
-  const TableView = () => {
-    return useMemo(
-      () => (
-        <Table variant="striped" colorScheme="blue" size="lg">
-          <Thead>
-            <Tr>
-              <Th>Vehicle Type</Th>
-              <Th>Vehicle Info</Th>
-              <Th>Series</Th>
-              <Th>Character</Th>
-              <Th>Location</Th>
-              <Th>Designer</Th>
-              <Th>Social Media</Th>
-              <Th>Actions</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {vehicles.map((v) => (
-              <Tr key={v.id}>
-                <Td textTransform="capitalize">{v.vehicle_type}</Td>
-                <Td>{v.vehicle_information}</Td>
-                <Td>{v.series}</Td>
-                <Td>{v.character}</Td>
-                <Td>
-                  {[v.city, v.state, v.country].filter(Boolean).join(', ')}
-                </Td>
-                <Td>{v.designer}</Td>
-                <Td>
-                  {v.instagram && (
-                    <Link
-                      href={`https://instagram.com/${v.instagram}`}
-                      target="_blank"
-                    >
-                      <Icon as={AiOutlineInstagram} boxSize={7} />
-                    </Link>
-                  )}
-                </Td>
-                <Td>
-                  <EditIcon
-                    aria-label="Edit vehicle"
-                    onClick={() => openVehicleUpdate(v.id)}
-                    boxSize={7}
-                    cursor="pointer"
-                  />
-                  <DeleteIcon
-                    aria-label="Delete vehicle"
-                    onClick={() => openVehicleDelete(v.id)}
-                    boxSize={7}
-                    cursor="pointer"
-                  />
-                </Td>
-              </Tr>
-            ))}
-          </Tbody>
-        </Table>
-      ),
-      [vehicles],
-    );
-  };
+  const columns = useMemo(() => [
+    {
+      Header: 'Image',
+      id: 'image',
+      Cell: (cellInfo) => {
+        const { original } = cellInfo.row;
+        if (original.cover_image) {
+          const imgPath = `/storage/${original.cover_image}`;
+          return (
+            <Image
+              src={imgPath}
+              onClick={() => openImage(imgPath)}
+              alt="Vehicle"
+              cursor="pointer"
+            />
+          );
+        }
+
+        return <></>;
+      },
+    },
+    {
+      Header: 'Vehicle Type',
+      id: 'vehicle_type',
+      accessor: (row) => {
+        return (
+          row.vehicle_type.charAt(0).toUpperCase() + row.vehicle_type.slice(1)
+        );
+      },
+    },
+    {
+      Header: 'Vehicle Information',
+      accessor: 'vehicle_information',
+    },
+    {
+      Header: 'Series',
+      accessor: 'series',
+    },
+    {
+      Header: 'Character',
+      accessor: 'character',
+    },
+    {
+      Header: 'City',
+      accessor: 'city',
+    },
+    {
+      Header: 'State/Province',
+      accessor: 'state',
+    },
+    {
+      Header: 'Country',
+      accessor: 'country',
+    },
+    {
+      Header: 'Designer',
+      accessor: 'designer',
+    },
+    {
+      Header: 'Social Media',
+      Cell: (cellInfo) => {
+        const { original } = cellInfo.row;
+        return (
+          <>
+            {original.instagram && original.instagram !== '' && (
+              <Link
+                href={`https://instagram.com/${original.instagram}`}
+                target="_blank"
+              >
+                <Icon as={AiOutlineInstagram} boxSize={7} />
+              </Link>
+            )}
+          </>
+        );
+      },
+    },
+    {
+      Header: 'Actions',
+      Cell: (cellInfo) => {
+        const { original } = cellInfo.row;
+        return (
+          <>
+            {original.is_approved === 0 && (
+              <CheckIcon
+                aria-label="Approve vehicle"
+                onClick={() => onApprove(original.id)}
+                boxSize={7}
+                cursor="pointer"
+              />
+            )}
+
+            <EditIcon
+              aria-label="Edit vehicle"
+              onClick={() => openVehicleUpdate(original.id)}
+              boxSize={7}
+              cursor="pointer"
+            />
+            <DeleteIcon
+              aria-label="Delete vehicle"
+              onClick={() => openVehicleDelete(original.id)}
+              boxSize={7}
+              cursor="pointer"
+            />
+          </>
+        );
+      },
+    },
+  ]);
 
   return (
     <Flex flexGrow={1} maxWidth="full" direction="column">
-      <TableView />
+      <Flex direction="column" overflow="auto" flexGrow={1} mb={3}>
+        <DataTable columns={columns} data={vehicles} />
+      </Flex>
 
       <Modal isOpen={isUpdateOpen} onClose={onUpdateClose} size="2xl">
         <ModalOverlay />

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\DesignerController;
 use App\Http\Controllers\GroupController;
+use App\Models\Vehicle;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,8 +28,13 @@ Route::get('/resources', fn() => Inertia::render('Public/Resources'));
 
 Route::middleware(['auth.basic'])->group(function() {
     Route::resource('vehicles', VehicleController::class)->only(['update', 'destroy']);
+    Route::patch('vehicles/{vehicle}/approve', [VehicleController::class, 'approve']);
+
     Route::resource('designers', DesignerController::class)->only(['update', 'destroy']);
+    Route::patch('designers/{designer}/approve', [DesignerController::class, 'approve']);
+
     Route::resource('groups', GroupController::class)->only(['update', 'destroy']);
+    Route::patch('groups/{group}/approve', [GroupController::class, 'approve']);
 });
 
 Route::prefix('master')->middleware(['auth.basic'])->group(function() {

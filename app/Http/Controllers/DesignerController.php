@@ -32,8 +32,7 @@ class DesignerController extends Controller
      */
     public function adminIndex()
     {
-        $designers = Designer::where('is_approved', false)
-            ->orderBy('created_at')
+        $designers = Designer::orderBy('created_at')
             ->get();
 
         return Inertia::render('Admin/Designers', [
@@ -66,6 +65,19 @@ class DesignerController extends Controller
     }
 
     /**
+     * Approve the specified resource in storage.
+     * 
+     * @param \App\Models\Designer  $designer
+     * @return \Illuminate\Http\Response
+     */
+    public function approve(Designer $designer)
+    {
+        $designer->update(['is_approved' => 1]);
+
+        return redirect()->back()->with('success', 'Successfully approved designer');
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\UpdateDesignerRequest  $request
@@ -74,9 +86,9 @@ class DesignerController extends Controller
      */
     public function update(UpdateDesignerRequest $request, Designer $designer)
     {
-        $designer->update(array_merge($request->validated(), ['is_approved' => 1]));
+        $designer->update($request->validated());
 
-        return redirect()->back()->with('success', 'Successfully approved designer');
+        return redirect()->back()->with('success', 'Successfully updated designer');
     }
 
     /**

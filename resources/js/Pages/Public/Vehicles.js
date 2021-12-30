@@ -99,12 +99,16 @@ const Vehicles = ({ vehicles }) => {
       Cell: (cellInfo) => {
         const { original } = cellInfo.row;
         return (
-          <Link
-            href={`https://instagram.com/${original.instagram}`}
-            target="_blank"
-          >
-            <Icon as={AiOutlineInstagram} boxSize={7} />
-          </Link>
+          <>
+            {original.instagram && original.instagram !== '' && (
+              <Link
+                href={`https://instagram.com/${original.instagram}`}
+                target="_blank"
+              >
+                <Icon as={AiOutlineInstagram} boxSize={7} />
+              </Link>
+            )}
+          </>
         );
       },
     },

@@ -1,4 +1,4 @@
-import { AddIcon, DeleteIcon } from '@chakra-ui/icons';
+import { AddIcon } from '@chakra-ui/icons';
 import {
   ButtonGroup,
   FormControl,
@@ -10,7 +10,8 @@ import {
   Spacer,
 } from '@chakra-ui/react';
 import { useForm } from '@inertiajs/inertia-react';
-import React from 'react';
+import { Country, State } from 'country-state-city';
+import React, { useEffect } from 'react';
 
 import Button from '../components/Button';
 
@@ -21,7 +22,10 @@ const UpdateGroupForm = ({ g, onClose }) => {
   const form = useForm(
     {
       name: g.name || '',
-      location: g.location || '',
+      state: g.state || '',
+      country: g.country || '',
+      lat: g.lat || '',
+      lng: g.lng || '',
       exclusivity: g.exclusivity || '',
       notes: g.notes || '',
       instagram: g.instagram || '',
@@ -30,7 +34,7 @@ const UpdateGroupForm = ({ g, onClose }) => {
   );
   const { data, setData, patch, processing, errors, reset } = form;
 
-  const onApprove = (e) => {
+  const onSave = (e) => {
     e.preventDefault();
     patch(`/groups/${g.id}`, {
       onSuccess: () => {
@@ -40,18 +44,31 @@ const UpdateGroupForm = ({ g, onClose }) => {
     });
   };
 
-  const onDecline = (e) => {
-    e.preventDefault();
-    form.delete(`/groups/${g.id}`, {
-      onSuccess: () => {
-        reset();
-        onClose();
-      },
-    });
-  };
+  // Get latitude and longitude of location.
+  useEffect(() => {
+    if (data.state !== '') {
+      const state = State.getStateByCodeAndCountry(data.state, data.country);
+      setData((prevData) => {
+        return {
+          ...prevData,
+          lat: state.latitude,
+          lng: state.longitude,
+        };
+      });
+    } else if (data.country !== '') {
+      const country = Country.getCountryByCode(data.country);
+      setData((prevData) => {
+        return {
+          ...prevData,
+          lat: country.latitude,
+          lng: country.longitude,
+        };
+      });
+    }
+  }, [data.country, data.state]);
 
   return (
-    <form onSubmit={onApprove}>
+    <form onSubmit={onSave}>
       <HStack my={4} spacing={4}>
         <FormControl id="name" isInvalid={!!errors?.name} isRequired>
           <FormLabel>Name</FormLabel>
@@ -63,15 +80,40 @@ const UpdateGroupForm = ({ g, onClose }) => {
           />
           <FormErrorMessage>{errors?.name}</FormErrorMessage>
         </FormControl>
-        <FormControl id="location" isInvalid={!!errors?.location} isRequired>
-          <FormLabel>Location</FormLabel>
-          <Input
-            value={data.location}
-            onChange={(e) => setData('location', e.target.value)}
-            placeholder="Group's location (can just be country)"
-            data-cy="location-input"
-          />
-          <FormErrorMessage>{errors?.location}</FormErrorMessage>
+      </HStack>
+
+      <HStack my={4} spacing={4}>
+        <FormControl id="country" isInvalid={!!errors?.country} isRequired>
+          <FormLabel>Country</FormLabel>
+          <Select
+            value={data.country}
+            onChange={(e) => setData('country', e.target.value)}
+          >
+            <option value="">-- Select an Option --</option>
+            {Country.getAllCountries().map((country) => (
+              <option key={country.isoCode} value={country.isoCode}>
+                {country.name}
+              </option>
+            ))}
+          </Select>
+          <FormErrorMessage>{errors?.country}</FormErrorMessage>
+        </FormControl>
+
+        <FormControl id="state" isInvalid={!!errors?.state}>
+          <FormLabel>State/Province</FormLabel>
+          <Select
+            value={data.state}
+            onChange={(e) => setData('state', e.target.value)}
+            isDisabled={data.country === ''}
+          >
+            <option value="">-- Select an Option --</option>
+            {State.getStatesOfCountry(data.country).map((state) => (
+              <option key={state.isoCode} value={state.isoCode}>
+                {state.name}
+              </option>
+            ))}
+          </Select>
+          <FormErrorMessage>{errors?.state}</FormErrorMessage>
         </FormControl>
       </HStack>
 
@@ -117,21 +159,13 @@ const UpdateGroupForm = ({ g, onClose }) => {
       <HStack>
         <ButtonGroup spacing={2}>
           <Button leftIcon={<AddIcon />} isLoading={processing} type="submit">
-            Approve
+            Update
           </Button>
           <Button variant="outline" onClick={onClose}>
             Cancel
           </Button>
         </ButtonGroup>
         <Spacer />
-        <Button
-          leftIcon={<DeleteIcon />}
-          colorScheme="yellow"
-          isLoading={processing}
-          onClick={onDecline}
-        >
-          Decline
-        </Button>
       </HStack>
     </form>
   );

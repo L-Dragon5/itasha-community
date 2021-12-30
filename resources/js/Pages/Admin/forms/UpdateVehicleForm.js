@@ -1,4 +1,4 @@
-import { AddIcon, DeleteIcon } from '@chakra-ui/icons';
+import { AddIcon } from '@chakra-ui/icons';
 import {
   ButtonGroup,
   FormControl,
@@ -10,7 +10,8 @@ import {
   Spacer,
 } from '@chakra-ui/react';
 import { useForm } from '@inertiajs/inertia-react';
-import React from 'react';
+import { City, Country, State } from 'country-state-city';
+import React, { useEffect } from 'react';
 
 import Button from '../components/Button';
 
@@ -27,14 +28,17 @@ const UpdateVehicleForm = ({ v, onClose }) => {
       city: v.city || '',
       state: v.state || '',
       country: v.country || '',
+      lat: v.lat || '',
+      lng: v.lng || '',
       designer: v.designer || '',
       instagram: v.instagram || '',
+      coverImage: '',
     },
     'UpdateVehicle',
   );
   const { data, setData, patch, processing, errors, reset } = form;
 
-  const onApprove = (e) => {
+  const onSave = (e) => {
     e.preventDefault();
     patch(`/vehicles/${v.id}`, {
       onSuccess: () => {
@@ -44,18 +48,41 @@ const UpdateVehicleForm = ({ v, onClose }) => {
     });
   };
 
-  const onDecline = (e) => {
-    e.preventDefault();
-    form.delete(`/vehicles/${v.id}`, {
-      onSuccess: () => {
-        reset();
-        onClose();
-      },
-    });
-  };
+  // Get latitude and longitude of location.
+  useEffect(() => {
+    if (data.city !== '') {
+      const cities = City.getCitiesOfState(data.country, data.state);
+      const city = cities.find((c) => c.name === data.city);
+      setData((prevData) => {
+        return {
+          ...prevData,
+          lat: city.latitude,
+          lng: city.longitude,
+        };
+      });
+    } else if (data.state !== '') {
+      const state = State.getStateByCodeAndCountry(data.state, data.country);
+      setData((prevData) => {
+        return {
+          ...prevData,
+          lat: state.latitude,
+          lng: state.longitude,
+        };
+      });
+    } else if (data.country !== '') {
+      const country = Country.getCountryByCode(data.country);
+      setData((prevData) => {
+        return {
+          ...prevData,
+          lat: country.latitude,
+          lng: country.longitude,
+        };
+      });
+    }
+  }, [data.country, data.state, data.city]);
 
   return (
-    <form onSubmit={onApprove}>
+    <form onSubmit={onSave}>
       <HStack my={4} spacing={4}>
         <FormControl
           id="vehicleType"
@@ -110,35 +137,54 @@ const UpdateVehicleForm = ({ v, onClose }) => {
       </HStack>
 
       <HStack my={4} spacing={4}>
-        <FormControl id="city" isInvalid={!!errors?.city}>
-          <FormLabel>City</FormLabel>
-          <Input
-            value={data.city}
-            onChange={(e) => setData('city', e.target.value)}
-            placeholder="ex: Los Angeles"
-            data-cy="city-input"
-          />
-          <FormErrorMessage>{errors?.city}</FormErrorMessage>
-        </FormControl>
-        <FormControl id="state" isInvalid={!!errors?.state}>
-          <FormLabel>State/Province</FormLabel>
-          <Input
-            value={data.state}
-            onChange={(e) => setData('state', e.target.value)}
-            placeholder="ex: California"
-            data-cy="state-input"
-          />
-          <FormErrorMessage>{errors?.state}</FormErrorMessage>
-        </FormControl>
         <FormControl id="country" isInvalid={!!errors?.country} isRequired>
           <FormLabel>Country</FormLabel>
-          <Input
+          <Select
             value={data.country}
             onChange={(e) => setData('country', e.target.value)}
-            placeholder="ex: USA"
-            data-cy="country-input"
-          />
+          >
+            <option value="">-- Select an Option --</option>
+            {Country.getAllCountries().map((country) => (
+              <option key={country.isoCode} value={country.isoCode}>
+                {country.name}
+              </option>
+            ))}
+          </Select>
           <FormErrorMessage>{errors?.country}</FormErrorMessage>
+        </FormControl>
+
+        <FormControl id="state" isInvalid={!!errors?.state}>
+          <FormLabel>State/Province</FormLabel>
+          <Select
+            value={data.state}
+            onChange={(e) => setData('state', e.target.value)}
+            isDisabled={data.country === ''}
+          >
+            <option value="">-- Select an Option --</option>
+            {State.getStatesOfCountry(data.country).map((state) => (
+              <option key={state.isoCode} value={state.isoCode}>
+                {state.name}
+              </option>
+            ))}
+          </Select>
+          <FormErrorMessage>{errors?.state}</FormErrorMessage>
+        </FormControl>
+
+        <FormControl id="city" isInvalid={!!errors?.city}>
+          <FormLabel>City</FormLabel>
+          <Select
+            value={data.city}
+            onChange={(e) => setData('city', e.target.value)}
+            isDisabled={data.state === ''}
+          >
+            <option value="">-- Select an Option --</option>
+            {City.getCitiesOfState(data.country, data.state).map((city) => (
+              <option key={city.name} value={city.name}>
+                {city.name}
+              </option>
+            ))}
+          </Select>
+          <FormErrorMessage>{errors?.city}</FormErrorMessage>
         </FormControl>
       </HStack>
 
@@ -166,24 +212,29 @@ const UpdateVehicleForm = ({ v, onClose }) => {
         </FormControl>
       </HStack>
 
+      <HStack my={4} spacing={4}>
+        <FormControl id="coverImage" isInvalid={!!errors?.coverImage}>
+          <FormLabel>Cover Image (Don't upload to keep same image)</FormLabel>
+          <Input
+            variant="flushed"
+            onChange={(e) => setData('coverImage', e.target.files[0])}
+            type="file"
+            accept="image/*"
+          />
+          <FormErrorMessage>{errors?.coverImage}</FormErrorMessage>
+        </FormControl>
+      </HStack>
+
       <HStack>
         <ButtonGroup spacing={2}>
           <Button leftIcon={<AddIcon />} isLoading={processing} type="submit">
-            Approve
+            Update
           </Button>
           <Button variant="outline" onClick={onClose}>
             Cancel
           </Button>
         </ButtonGroup>
         <Spacer />
-        <Button
-          leftIcon={<DeleteIcon />}
-          colorScheme="yellow"
-          isLoading={processing}
-          onClick={onDecline}
-        >
-          Decline
-        </Button>
       </HStack>
     </form>
   );

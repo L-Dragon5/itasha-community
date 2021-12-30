@@ -86,6 +86,19 @@ class VehicleController extends Controller
     }
 
     /**
+     * Approve the specified resource in storage.
+     * 
+     * @param \App\Models\Vehicle  $vehicle
+     * @return \Illuminate\Http\Response
+     */
+    public function approve(Vehicle $vehicle)
+    {
+        $vehicle->update(['is_approved' => 1]);
+
+        return redirect()->back()->with('success', 'Successfully approved vehicle');
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\UpdateVehicleRequest  $request
@@ -95,7 +108,7 @@ class VehicleController extends Controller
     public function update(UpdateVehicleRequest $request, Vehicle $vehicle)
     {
         $validated = $request->validated();
-        $vehicle->update(array_merge($validated, ['is_approved' => 1]));
+        $vehicle->update($validated);
 
         // Check if a cover image has been uploaded.
         if (!empty($validated['coverImage'])) {
@@ -120,7 +133,7 @@ class VehicleController extends Controller
             Storage::disk('public')->delete($old_image);
         }
 
-        return redirect()->back()->with('success', 'Successfully approved vehicle');
+        return redirect()->back()->with('success', 'Successfully updated vehicle');
     }
 
     /**

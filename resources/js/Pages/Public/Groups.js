@@ -39,7 +39,11 @@ const Groups = ({ groups }) => {
     },
     {
       Header: 'Exclusivity',
-      accessor: 'exclusivity',
+      accessor: (row) => {
+        return (
+          row.exclusivity.charAt(0).toUpperCase() + row.exclusivity.slice(1)
+        );
+      },
     },
     {
       Header: 'Notes',

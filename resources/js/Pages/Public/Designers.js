@@ -47,16 +47,20 @@ const Designers = ({ designers }) => {
         const { original } = cellInfo.row;
         return (
           <>
-            <Link href={original.website} target="_blank">
-              <Icon as={AiOutlineGlobal} boxSize={7} />
-            </Link>
+            {original.website && original.website !== '' && (
+              <Link href={original.website} target="_blank">
+                <Icon as={AiOutlineGlobal} boxSize={7} />
+              </Link>
+            )}
 
-            <Link
-              href={`https://instagram.com/${original.instagram}`}
-              target="_blank"
-            >
-              <Icon as={AiOutlineInstagram} boxSize={7} />
-            </Link>
+            {original.instagram && original.instagram !== '' && (
+              <Link
+                href={`https://instagram.com/${original.instagram}`}
+                target="_blank"
+              >
+                <Icon as={AiOutlineInstagram} boxSize={7} />
+              </Link>
+            )}
           </>
         );
       },
