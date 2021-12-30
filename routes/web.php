@@ -38,11 +38,16 @@ Route::middleware(['auth.basic'])->group(function() {
 });
 
 Route::prefix('master')->middleware(['auth.basic'])->group(function() {
-    Route::get('/', fn() => Inertia::render('Admin/Index'));
+    Route::get('/', function () {
+        $audits = \OwenIt\Auditing\Models\Audit::orderBy('created_at', 'desc')->get();
+        return Inertia::render('Admin/Index', [
+            'audits' => $audits,
+        ]);
+    });
 
     Route::get('/vehicles', [VehicleController::class, 'adminIndex']);
     Route::get('/designers', [DesignerController::class, 'adminIndex']);
     Route::get('/groups', [GroupController::class, 'adminIndex']);
 
-    Route::get('/resouces', fn() => Inertia::render('Admin/Resources'));
+    Route::get('/resources', fn() => Inertia::render('Admin/Resources'));
 });
