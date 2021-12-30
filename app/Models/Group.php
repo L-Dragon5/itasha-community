@@ -11,7 +11,10 @@ class Group extends Model
 
     protected $fillable = [
         'name',
-        'location',
+        'state',
+        'country',
+        'lng',
+        'lat',
         'exclusivity',
         'notes',
         'instagram',

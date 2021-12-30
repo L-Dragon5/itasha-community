@@ -8,7 +8,8 @@ import {
   Select,
 } from '@chakra-ui/react';
 import { useForm } from '@inertiajs/inertia-react';
-import React from 'react';
+import { City, Country, State } from 'country-state-city';
+import React, { useEffect } from 'react';
 
 import Button from '../components/Button';
 
@@ -19,7 +20,10 @@ const SubmitGroupForm = ({ onClose }) => {
   const { data, setData, post, processing, errors, reset } = useForm(
     {
       name: '',
-      location: '',
+      state: '',
+      country: '',
+      lat: '',
+      lng: '',
       exclusivity: '',
       notes: '',
       instagram: '',
@@ -37,6 +41,29 @@ const SubmitGroupForm = ({ onClose }) => {
     });
   };
 
+  // Get latitude and longitude of location.
+  useEffect(() => {
+    if (data.state !== '') {
+      const state = State.getStateByCodeAndCountry(data.state, data.country);
+      setData((prevData) => {
+        return {
+          ...prevData,
+          lat: state.latitude,
+          lng: state.longitude,
+        };
+      });
+    } else if (data.country !== '') {
+      const country = Country.getCountryByCode(data.country);
+      setData((prevData) => {
+        return {
+          ...prevData,
+          lat: country.latitude,
+          lng: country.longitude,
+        };
+      });
+    }
+  }, [data.country, data.state]);
+
   return (
     <form onSubmit={onSubmit}>
       <HStack my={4} spacing={4}>
@@ -50,15 +77,40 @@ const SubmitGroupForm = ({ onClose }) => {
           />
           <FormErrorMessage>{errors?.name}</FormErrorMessage>
         </FormControl>
-        <FormControl id="location" isInvalid={!!errors?.location} isRequired>
-          <FormLabel>Location</FormLabel>
-          <Input
-            value={data.location}
-            onChange={(e) => setData('location', e.target.value)}
-            placeholder="Group's location (can just be country)"
-            data-cy="location-input"
-          />
-          <FormErrorMessage>{errors?.location}</FormErrorMessage>
+      </HStack>
+
+      <HStack my={4} spacing={4}>
+        <FormControl id="country" isInvalid={!!errors?.country} isRequired>
+          <FormLabel>Country</FormLabel>
+          <Select
+            value={data.country}
+            onChange={(e) => setData('country', e.target.value)}
+          >
+            <option value="">-- Select an Option --</option>
+            {Country.getAllCountries().map((country) => (
+              <option key={country.isoCode} value={country.isoCode}>
+                {country.name}
+              </option>
+            ))}
+          </Select>
+          <FormErrorMessage>{errors?.country}</FormErrorMessage>
+        </FormControl>
+
+        <FormControl id="state" isInvalid={!!errors?.state}>
+          <FormLabel>State/Province</FormLabel>
+          <Select
+            value={data.state}
+            onChange={(e) => setData('state', e.target.value)}
+            isDisabled={data.country === ''}
+          >
+            <option value="">-- Select an Option --</option>
+            {State.getStatesOfCountry(data.country).map((state) => (
+              <option key={state.isoCode} value={state.isoCode}>
+                {state.name}
+              </option>
+            ))}
+          </Select>
+          <FormErrorMessage>{errors?.state}</FormErrorMessage>
         </FormControl>
       </HStack>
 

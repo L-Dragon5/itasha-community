@@ -16,7 +16,10 @@ class CreateGroupsTable extends Migration
         Schema::create('groups', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('location');
+            $table->string('state')->nullable();
+            $table->string('country');
+            $table->decimal('lng', 10, 7)->nullable();
+            $table->decimal('lat', 10, 7)->nullable();
             $table->enum('exclusivity', ['public', 'private']);
             $table->text('notes')->nullable();
             $table->string('instagram')->nullable();

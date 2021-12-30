@@ -16,7 +16,11 @@ class CreateDesignersTable extends Migration
         Schema::create('designers', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('location');
+            $table->string('city')->nullable();
+            $table->string('state')->nullable();
+            $table->string('country');
+            $table->decimal('lng', 10, 7)->nullable();
+            $table->decimal('lat', 10, 7)->nullable();
             $table->string('website')->nullable();
             $table->string('instagram')->nullable();
             $table->boolean('is_approved')->default(false);

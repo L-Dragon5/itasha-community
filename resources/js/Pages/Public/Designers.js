@@ -1,6 +1,5 @@
 import { AddIcon } from '@chakra-ui/icons';
 import {
-  Box,
   Flex,
   Icon,
   Link,
@@ -11,13 +10,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Table,
-  Tbody,
-  Td,
   Text,
-  Th,
-  Thead,
-  Tr,
   useDisclosure,
 } from '@chakra-ui/react';
 import React, { useMemo } from 'react';
@@ -25,57 +18,56 @@ import { AiOutlineGlobal, AiOutlineInstagram } from 'react-icons/ai';
 
 import BaseLayout from './BaseLayout';
 import Button from './components/Button';
+import DataTable from './components/DataTable';
 import SubmitDesignerForm from './forms/SubmitDesignerForm';
 
 const Designers = ({ designers }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const TableView = () => {
-    return useMemo(
-      () => (
-        <Table variant="striped" colorScheme="blue" size="lg">
-          <Thead>
-            <Tr>
-              <Th>Name</Th>
-              <Th>Location</Th>
-              <Th>Contact</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {designers.map((d) => (
-              <Tr key={d.id}>
-                <Td textTransform="capitalize">{d.name}</Td>
-                <Td>{d.location}</Td>
-                <Td>
-                  {d.website && (
-                    <Link href={d.website} target="_blank">
-                      <Icon as={AiOutlineGlobal} boxSize={7} />
-                    </Link>
-                  )}
+  const columns = useMemo(() => [
+    {
+      Header: 'Name',
+      accessor: 'name',
+    },
+    {
+      Header: 'City',
+      accessor: 'city',
+    },
+    {
+      Header: 'State/Province',
+      accessor: 'state',
+    },
+    {
+      Header: 'Country',
+      accessor: 'country',
+    },
+    {
+      Header: 'Contact',
+      Cell: (cellInfo) => {
+        const { original } = cellInfo.row;
+        return (
+          <>
+            <Link href={original.website} target="_blank">
+              <Icon as={AiOutlineGlobal} boxSize={7} />
+            </Link>
 
-                  {d.instagram && (
-                    <Link
-                      href={`https://instagram.com/${d.instagram}`}
-                      target="_blank"
-                    >
-                      <Icon as={AiOutlineInstagram} boxSize={7} />
-                    </Link>
-                  )}
-                </Td>
-              </Tr>
-            ))}
-          </Tbody>
-        </Table>
-      ),
-      [designers],
-    );
-  };
+            <Link
+              href={`https://instagram.com/${original.instagram}`}
+              target="_blank"
+            >
+              <Icon as={AiOutlineInstagram} boxSize={7} />
+            </Link>
+          </>
+        );
+      },
+    },
+  ]);
 
   return (
     <Flex flexGrow={1} maxWidth="full" direction="column">
-      <Box overflow="auto" flexGrow={1}>
-        <TableView />
-      </Box>
+      <Flex direction="column" overflow="auto" flexGrow={1} mb={3}>
+        <DataTable columns={columns} data={designers} />
+      </Flex>
 
       <Button
         h={20}

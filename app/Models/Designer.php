@@ -11,7 +11,11 @@ class Designer extends Model
 
     protected $fillable = [
         'name',
-        'location',
+        'city',
+        'state',
+        'country',
+        'lng',
+        'lat',
         'website',
         'instagram',
         'is_approved',

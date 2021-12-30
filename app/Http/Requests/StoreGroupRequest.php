@@ -25,7 +25,10 @@ class StoreGroupRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
-            'location' => 'required|string',
+            'state' => 'string|nullable',
+            'country' => 'required|string',
+            'lat' => 'numeric|nullable',
+            'lng' => 'numeric|nullable',
             'exclusivity' => 'required|in:public,private',
             'notes' => 'string|nullable',
             'instagram' => 'string|nullable',

@@ -37,7 +37,6 @@ const SubmitVehicleForm = ({ onClose }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-
     post(
       '/vehicles',
       {

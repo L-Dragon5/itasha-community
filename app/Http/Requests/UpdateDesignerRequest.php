@@ -25,7 +25,11 @@ class UpdateDesignerRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
-            'location' => 'required|string',
+            'city' => 'string|nullable',
+            'state' => 'string|nullable',
+            'country' => 'required|string',
+            'lat' => 'numeric|nullable',
+            'lng' => 'numeric|nullable',
             'website' => 'url|nullable',
             'instagram' => 'string|nullable',
         ];
