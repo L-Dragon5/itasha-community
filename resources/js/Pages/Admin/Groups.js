@@ -15,11 +15,12 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
+  Select,
   useDisclosure,
 } from '@chakra-ui/react';
 import { Inertia } from '@inertiajs/inertia';
 import { useForm } from '@inertiajs/inertia-react';
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { AiOutlineInstagram } from 'react-icons/ai';
 
 import DataTable from '../Public/components/DataTable';
@@ -38,7 +39,9 @@ const Groups = ({ groups }) => {
     onOpen: onDeleteOpen,
     onClose: onDeleteClose,
   } = useDisclosure();
+  const [filteredGroups, setFilteredGroups] = useState([]);
   const [group, setGroup] = useState(null);
+  const [approvalSelection, setApprovalSelection] = useState('unapproved');
   const cancelRef = useRef();
   const { delete: inertiaDelete, processing } = useForm();
 
@@ -68,6 +71,39 @@ const Groups = ({ groups }) => {
       },
     });
   };
+
+  const ApprovalSelection = useMemo(
+    () => () =>
+      (
+        <Select
+          w="sm"
+          ml={3}
+          onChange={(e) => setApprovalSelection(e.target.value)}
+        >
+          <option value="unapproved">Unapproved Only</option>
+          <option value="approved">Approved Only</option>
+          <option value="all">All</option>
+        </Select>
+      ),
+    [],
+  );
+
+  useEffect(() => {
+    switch (approvalSelection) {
+      case 'unapproved': {
+        setFilteredGroups(groups.filter((g) => g.is_approved === 0));
+        break;
+      }
+      case 'approved': {
+        setFilteredGroups(groups.filter((g) => g.is_approved === 1));
+        break;
+      }
+      default: {
+        setFilteredGroups(groups);
+        break;
+      }
+    }
+  }, [approvalSelection]);
 
   const columns = useMemo(() => [
     {
@@ -144,7 +180,11 @@ const Groups = ({ groups }) => {
   return (
     <Flex flexGrow={1} maxWidth="full" direction="column">
       <Flex direction="column" overflow="auto" flexGrow={1} mb={3}>
-        <DataTable columns={columns} data={groups} />
+        <DataTable
+          columns={columns}
+          data={filteredGroups}
+          headerButtons={<ApprovalSelection />}
+        />
       </Flex>
 
       <Modal isOpen={isUpdateOpen} onClose={onUpdateClose} size="2xl">
