@@ -9,12 +9,22 @@ import {
   AlertDialogHeader,
   AlertDialogOverlay,
   Box,
+  Checkbox,
   Flex,
+  FormControl,
+  FormLabel,
   HStack,
   IconButton,
   Input,
   InputGroup,
   InputLeftElement,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverCloseButton,
+  PopoverContent,
+  PopoverTrigger,
+  Portal,
   Select,
   Spacer,
   Table,
@@ -25,6 +35,7 @@ import {
   Thead,
   Tr,
   useColorModeValue,
+  VStack,
 } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
 import React, { useMemo, useRef, useState } from 'react';
@@ -78,10 +89,33 @@ const GlobalFilter = ({ globalFilter, setGlobalFilter }) => {
 };
 
 /*
-    Jump to Page dialog component
+  Checkbox for table selection to show indeterminate status.
+*/
+const IndeterminateCheckbox = React.forwardRef(
+  ({ indeterminate, checked, ...rest }, ref) => {
+    const defaultRef = useRef();
+    const resolvedRef = ref || defaultRef;
 
-    Used in pagination to jump to a specific page in the table.
-  */
+    React.useEffect(() => {
+      resolvedRef.current.indeterminate = indeterminate;
+    }, [resolvedRef, indeterminate]);
+
+    return (
+      <Checkbox
+        ref={resolvedRef}
+        isIndeterminate={indeterminate}
+        isChecked={checked}
+        {...rest}
+      />
+    );
+  },
+);
+
+/*
+  Jump to Page dialog component
+
+  Used in pagination to jump to a specific page in the table.
+*/
 const JumpToPageDialog = ({ isOpen, setIsOpen, gotoPage, pageCount }) => {
   const onClose = () => setIsOpen(false);
   const cancelRef = useRef();
@@ -169,6 +203,8 @@ const DataTable = ({
     getTableBodyProps,
     headerGroups,
     prepareRow,
+    allColumns,
+    getToggleHideAllColumnsProps,
     page,
     canPreviousPage,
     canNextPage,
@@ -196,8 +232,36 @@ const DataTable = ({
       {/* Display headerButtons or hide the global filter search */}
       {headerButtons || !hideSearch ? (
         <Box className="top-table-container" my={4}>
-          <Flex>
+          <Flex ml={3}>
             {headerButtons || <></>}
+            <Popover>
+              <PopoverTrigger>
+                <Button>Column Display</Button>
+              </PopoverTrigger>
+              <Portal>
+                <PopoverContent>
+                  <PopoverArrow />
+                  <PopoverCloseButton />
+                  <PopoverBody as={VStack} spacing={2} alignItems="flex-start">
+                    <IndeterminateCheckbox {...getToggleHideAllColumnsProps()}>
+                      All Columns
+                    </IndeterminateCheckbox>
+                    {allColumns.map((column) => {
+                      const { checked } = column.getToggleHiddenProps();
+                      return (
+                        <Checkbox
+                          key={column.id}
+                          {...column.getToggleHiddenProps()}
+                          isChecked={checked}
+                        >
+                          {column.Header}
+                        </Checkbox>
+                      );
+                    })}
+                  </PopoverBody>
+                </PopoverContent>
+              </Portal>
+            </Popover>
             <Spacer />
             {!hideSearch ? (
               <GlobalFilter

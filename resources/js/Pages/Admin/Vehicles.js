@@ -77,7 +77,6 @@ const Vehicles = ({ vehicles }) => {
       (
         <Select
           w="sm"
-          ml={3}
           onChange={(e) => setApprovalSelection(e.target.value)}
         >
           <option value="unapproved">Unapproved Only</option>
