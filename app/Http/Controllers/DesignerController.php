@@ -32,8 +32,9 @@ class DesignerController extends Controller
      */
     public function adminIndex()
     {
-        $designers = Designer::orderBy('created_at')
-            ->get();
+        $designers = Designer::orderBy('is_approved')
+        ->orderBy('created_at')
+        ->get();
 
         return Inertia::render('Admin/Designers', [
             'designers' => $designers,

@@ -15,15 +15,18 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
-  Select,
   useDisclosure,
 } from '@chakra-ui/react';
 import { Inertia } from '@inertiajs/inertia';
 import { useForm } from '@inertiajs/inertia-react';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { AiOutlineGlobal, AiOutlineInstagram } from 'react-icons/ai';
 
 import DataTable from '../Public/components/DataTable';
+import {
+  SelectColumnFilter,
+  TextColumnFilter,
+} from '../Public/components/DataTableFilters';
 import AdminLayout from './AdminLayout';
 import Button from './components/Button';
 import UpdateDesignerForm from './forms/UpdateDesignerForm';
@@ -39,9 +42,7 @@ const Designers = ({ designers }) => {
     onOpen: onDeleteOpen,
     onClose: onDeleteClose,
   } = useDisclosure();
-  const [filteredDesigners, setFilteredDesigners] = useState([]);
   const [designer, setDesigner] = useState(null);
-  const [approvalSelection, setApprovalSelection] = useState('unapproved');
   const cancelRef = useRef();
   const { delete: inertiaDelete, processing } = useForm();
 
@@ -72,54 +73,29 @@ const Designers = ({ designers }) => {
     });
   };
 
-  const ApprovalSelection = useMemo(
-    () => () =>
-      (
-        <Select
-          w="sm"
-          onChange={(e) => setApprovalSelection(e.target.value)}
-        >
-          <option value="unapproved">Unapproved Only</option>
-          <option value="approved">Approved Only</option>
-          <option value="all">All</option>
-        </Select>
-      ),
-    [],
-  );
-
-  useEffect(() => {
-    switch (approvalSelection) {
-      case 'unapproved': {
-        setFilteredDesigners(designers.filter((d) => d.is_approved === 0));
-        break;
-      }
-      case 'approved': {
-        setFilteredDesigners(designers.filter((d) => d.is_approved === 1));
-        break;
-      }
-      default: {
-        setFilteredDesigners(designers);
-        break;
-      }
-    }
-  }, [approvalSelection]);
-
   const columns = useMemo(() => [
     {
       Header: 'Name',
       accessor: 'name',
+      Filter: TextColumnFilter,
     },
     {
       Header: 'City',
       accessor: 'city',
+      Filter: SelectColumnFilter,
+      filter: 'includes',
     },
     {
       Header: 'State/Province',
       accessor: 'state',
+      Filter: SelectColumnFilter,
+      filter: 'includes',
     },
     {
       Header: 'Country',
       accessor: 'country',
+      Filter: SelectColumnFilter,
+      filter: 'includes',
     },
     {
       Header: 'Contact',
@@ -181,11 +157,7 @@ const Designers = ({ designers }) => {
   return (
     <Flex flexGrow={1} maxWidth="full" direction="column">
       <Flex direction="column" overflow="auto" flexGrow={1} mb={3}>
-        <DataTable
-          columns={columns}
-          data={filteredDesigners}
-          headerButtons={<ApprovalSelection />}
-        />
+        <DataTable columns={columns} data={designers} />
       </Flex>
 
       <Modal isOpen={isUpdateOpen} onClose={onUpdateClose} size="2xl">

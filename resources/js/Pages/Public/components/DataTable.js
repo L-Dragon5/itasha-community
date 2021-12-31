@@ -11,8 +11,6 @@ import {
   Box,
   Checkbox,
   Flex,
-  FormControl,
-  FormLabel,
   HStack,
   IconButton,
   Input,
@@ -37,6 +35,7 @@ import {
   useColorModeValue,
   VStack,
 } from '@chakra-ui/react';
+import { matchSorter } from 'match-sorter';
 import PropTypes from 'prop-types';
 import React, { useMemo, useRef, useState } from 'react';
 import {
@@ -47,6 +46,7 @@ import {
 } from 'react-icons/bs';
 import {
   useAsyncDebounce,
+  useFilters,
   useFlexLayout,
   useGlobalFilter,
   usePagination,
@@ -162,6 +162,11 @@ const JumpToPageDialog = ({ isOpen, setIsOpen, gotoPage, pageCount }) => {
   );
 };
 
+const fuzzyTextFilterFn = (rows, id, filterValue) => {
+  return matchSorter(rows, filterValue, { keys: [(row) => row.values[id]] });
+};
+fuzzyTextFilterFn.autoRemove = (val) => !val;
+
 /*
   DataTable component used to display data in a grid-like table.
   
@@ -185,12 +190,29 @@ const DataTable = ({
   const [isOpen, setIsOpen] = useState(false);
   const parentRef = React.useRef();
 
+  // Filter types for column filtering.
+  const filterTypes = useMemo(() => ({
+    text: fuzzyTextFilterFn,
+    oldText: (rows, id, filterValue) => {
+      return rows.filter((row) => {
+        const rowValue = row.values[id];
+        return rowValue !== undefined
+          ? String(rowValue)
+              .toLowerCase()
+              .startsWith(String(filterValue).toLowerCase())
+          : true;
+      });
+    },
+  }));
+
   // Default column properties for table.
   const defaultColumn = useMemo(
     () => ({
       minWidth: 30,
       width: 150,
       maxWidth: 200,
+      defaultCanFilter: false,
+      Filter: <></>,
     }),
     [],
   );
@@ -217,9 +239,10 @@ const DataTable = ({
     setGlobalFilter,
     state: { globalFilter, pageIndex, pageSize },
   } = useTable(
-    { columns, data, defaultColumn },
+    { columns, data, defaultColumn, filterTypes },
     useResizeColumns,
     useFlexLayout,
+    useFilters,
     useGlobalFilter,
     useSortBy,
     usePagination,
@@ -302,20 +325,29 @@ const DataTable = ({
                       }),
                     )}
                   >
-                    {column.render('Header')}
-
-                    <Span pl="4">
+                    {/* Render sorting triangles */}
+                    <Span>
                       {column.isSorted ? (
                         column.isSortedDesc ? (
-                          <TriangleDownIcon aria-label="sorted descending" />
+                          <TriangleDownIcon
+                            mr={1}
+                            aria-label="sorted descending"
+                          />
                         ) : (
-                          <TriangleUpIcon aria-label="sorted ascending" />
+                          <TriangleUpIcon
+                            mr={1}
+                            aria-label="sorted ascending"
+                          />
                         )
                       ) : (
                         ''
                       )}
                     </Span>
 
+                    {/* Render column header */}
+                    {column.render('Header')}
+
+                    {/* Render resizer element */}
                     {column.canResize && (
                       <Box
                         {...column.getResizerProps({
@@ -332,6 +364,13 @@ const DataTable = ({
                         onClick={(e) => e.stopPropagation()}
                       />
                     )}
+
+                    {/* Render column's filter UI */}
+                    {column.canFilter ? (
+                      <Box mt={2} onClick={(e) => e.stopPropagation()}>
+                        {column.render('Filter')}
+                      </Box>
+                    ) : null}
                   </Th>
                 ))}
               </Tr>

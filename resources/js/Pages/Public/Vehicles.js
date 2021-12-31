@@ -20,6 +20,10 @@ import { AiOutlineInstagram } from 'react-icons/ai';
 import BaseLayout from './BaseLayout';
 import Button from './components/Button';
 import DataTable from './components/DataTable';
+import {
+  SelectColumnFilter,
+  TextColumnFilter,
+} from './components/DataTableFilters';
 import SubmitVehicleForm from './forms/SubmitVehicleForm';
 
 const Vehicles = ({ vehicles }) => {
@@ -65,34 +69,46 @@ const Vehicles = ({ vehicles }) => {
           row.vehicle_type.charAt(0).toUpperCase() + row.vehicle_type.slice(1)
         );
       },
+      Filter: SelectColumnFilter,
+      filter: 'includes',
     },
     {
       Header: 'Vehicle Information',
       accessor: 'vehicle_information',
+      Filter: TextColumnFilter,
     },
     {
       Header: 'Series',
       accessor: 'series',
+      Filter: TextColumnFilter,
     },
     {
       Header: 'Character',
       accessor: 'character',
+      Filter: TextColumnFilter,
     },
     {
       Header: 'City',
       accessor: 'city',
+      Filter: SelectColumnFilter,
+      filter: 'includes',
     },
     {
       Header: 'State/Province',
       accessor: 'state',
+      Filter: SelectColumnFilter,
+      filter: 'includes',
     },
     {
       Header: 'Country',
       accessor: 'country',
+      Filter: SelectColumnFilter,
+      filter: 'includes',
     },
     {
       Header: 'Designer',
       accessor: 'designer',
+      Filter: TextColumnFilter,
     },
     {
       Header: 'Social Media',

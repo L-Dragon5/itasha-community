@@ -32,8 +32,9 @@ class GroupController extends Controller
      */
     public function adminIndex()
     {
-        $groups = Group::orderBy('created_at')
-            ->get();
+        $groups = Group::orderBy('is_approved')
+        ->orderBy('created_at')
+        ->get();
 
         return Inertia::render('Admin/Groups', [
             'groups' => $groups,

@@ -19,6 +19,10 @@ import { AiOutlineGlobal, AiOutlineInstagram } from 'react-icons/ai';
 import BaseLayout from './BaseLayout';
 import Button from './components/Button';
 import DataTable from './components/DataTable';
+import {
+  SelectColumnFilter,
+  TextColumnFilter,
+} from './components/DataTableFilters';
 import SubmitDesignerForm from './forms/SubmitDesignerForm';
 
 const Designers = ({ designers }) => {
@@ -28,18 +32,25 @@ const Designers = ({ designers }) => {
     {
       Header: 'Name',
       accessor: 'name',
+      Filter: TextColumnFilter,
     },
     {
       Header: 'City',
       accessor: 'city',
+      Filter: SelectColumnFilter,
+      filter: 'includes',
     },
     {
       Header: 'State/Province',
       accessor: 'state',
+      Filter: SelectColumnFilter,
+      filter: 'includes',
     },
     {
       Header: 'Country',
       accessor: 'country',
+      Filter: SelectColumnFilter,
+      filter: 'includes',
     },
     {
       Header: 'Contact',

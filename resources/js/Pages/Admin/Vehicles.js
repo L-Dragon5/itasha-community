@@ -15,15 +15,18 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
-  Select,
   useDisclosure,
 } from '@chakra-ui/react';
 import { Inertia } from '@inertiajs/inertia';
 import { useForm } from '@inertiajs/inertia-react';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { AiOutlineInstagram } from 'react-icons/ai';
 
 import DataTable from '../Public/components/DataTable';
+import {
+  SelectColumnFilter,
+  TextColumnFilter,
+} from '../Public/components/DataTableFilters';
 import AdminLayout from './AdminLayout';
 import Button from './components/Button';
 import UpdateVehicleForm from './forms/UpdateVehicleForm';
@@ -39,9 +42,7 @@ const Vehicles = ({ vehicles }) => {
     onOpen: onDeleteOpen,
     onClose: onDeleteClose,
   } = useDisclosure();
-  const [filteredVehicles, setFilteredVehicles] = useState([]);
   const [vehicle, setVehicle] = useState(null);
-  const [approvalSelection, setApprovalSelection] = useState('unapproved');
   const cancelRef = useRef();
   const { delete: inertiaDelete, processing } = useForm();
 
@@ -72,39 +73,19 @@ const Vehicles = ({ vehicles }) => {
     });
   };
 
-  const ApprovalSelection = useMemo(
-    () => () =>
-      (
-        <Select
-          w="sm"
-          onChange={(e) => setApprovalSelection(e.target.value)}
-        >
-          <option value="unapproved">Unapproved Only</option>
-          <option value="approved">Approved Only</option>
-          <option value="all">All</option>
-        </Select>
-      ),
-    [],
-  );
-
-  useEffect(() => {
-    switch (approvalSelection) {
-      case 'unapproved': {
-        setFilteredVehicles(vehicles.filter((v) => v.is_approved === 0));
-        break;
-      }
-      case 'approved': {
-        setFilteredVehicles(vehicles.filter((v) => v.is_approved === 1));
-        break;
-      }
-      default: {
-        setFilteredVehicles(vehicles);
-        break;
-      }
-    }
-  }, [approvalSelection]);
-
   const columns = useMemo(() => [
+    {
+      Header: 'Approval Status',
+      accessor: (row) => {
+        if (row.is_approved) {
+          return 'Yes';
+        }
+
+        return 'No';
+      },
+      Filter: SelectColumnFilter,
+      filter: 'includes',
+    },
     {
       Header: 'Image',
       id: 'image',
@@ -133,34 +114,46 @@ const Vehicles = ({ vehicles }) => {
           row.vehicle_type.charAt(0).toUpperCase() + row.vehicle_type.slice(1)
         );
       },
+      Filter: SelectColumnFilter,
+      filter: 'includes',
     },
     {
       Header: 'Vehicle Information',
       accessor: 'vehicle_information',
+      Filter: TextColumnFilter,
     },
     {
       Header: 'Series',
       accessor: 'series',
+      Filter: TextColumnFilter,
     },
     {
       Header: 'Character',
       accessor: 'character',
+      Filter: TextColumnFilter,
     },
     {
       Header: 'City',
       accessor: 'city',
+      Filter: SelectColumnFilter,
+      filter: 'includes',
     },
     {
       Header: 'State/Province',
       accessor: 'state',
+      Filter: SelectColumnFilter,
+      filter: 'includes',
     },
     {
       Header: 'Country',
       accessor: 'country',
+      Filter: SelectColumnFilter,
+      filter: 'includes',
     },
     {
       Header: 'Designer',
       accessor: 'designer',
+      Filter: TextColumnFilter,
     },
     {
       Header: 'Social Media',
@@ -216,11 +209,7 @@ const Vehicles = ({ vehicles }) => {
   return (
     <Flex flexGrow={1} maxWidth="full" direction="column">
       <Flex direction="column" overflow="auto" flexGrow={1} mb={3}>
-        <DataTable
-          columns={columns}
-          data={filteredVehicles}
-          headerButtons={<ApprovalSelection />}
-        />
+        <DataTable columns={columns} data={vehicles} />
       </Flex>
 
       <Modal isOpen={isUpdateOpen} onClose={onUpdateClose} size="2xl">

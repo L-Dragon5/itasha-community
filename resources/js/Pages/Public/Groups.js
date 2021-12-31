@@ -19,6 +19,10 @@ import { AiOutlineInstagram } from 'react-icons/ai';
 import BaseLayout from './BaseLayout';
 import Button from './components/Button';
 import DataTable from './components/DataTable';
+import {
+  SelectColumnFilter,
+  TextColumnFilter,
+} from './components/DataTableFilters';
 import SubmitGroupForm from './forms/SubmitGroupForm';
 
 const Groups = ({ groups }) => {
@@ -28,14 +32,19 @@ const Groups = ({ groups }) => {
     {
       Header: 'Name',
       accessor: 'name',
+      Filter: TextColumnFilter,
     },
     {
       Header: 'State/Province',
       accessor: 'state',
+      Filter: SelectColumnFilter,
+      filter: 'includes',
     },
     {
       Header: 'Country',
       accessor: 'country',
+      Filter: SelectColumnFilter,
+      filter: 'includes',
     },
     {
       Header: 'Exclusivity',
@@ -44,6 +53,8 @@ const Groups = ({ groups }) => {
           row.exclusivity.charAt(0).toUpperCase() + row.exclusivity.slice(1)
         );
       },
+      Filter: SelectColumnFilter,
+      filter: 'includes',
     },
     {
       Header: 'Notes',

@@ -35,7 +35,8 @@ class VehicleController extends Controller
      */
     public function adminIndex()
     {
-        $vehicles = Vehicle::orderBy('created_at')
+        $vehicles = Vehicle::orderBy('is_approved')
+            ->orderBy('created_at')
             ->get();
 
         return Inertia::render('Admin/Vehicles', [
