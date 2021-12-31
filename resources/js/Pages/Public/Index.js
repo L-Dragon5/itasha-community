@@ -4,6 +4,7 @@ import {
   Container,
   Flex,
   Heading,
+  Link,
   Text,
   useColorModeValue,
 } from '@chakra-ui/react';
@@ -69,6 +70,31 @@ const Index = () => (
           feel like it's doable and will help connect all the different regions
           together.
         </Text>
+
+        <Box mt={6}>
+          <Text>
+            You can send bug reports or feature requests at{' '}
+            <Link
+              href="https://github.com/L-Dragon5/itasha-community"
+              fontWeight="medium"
+              color={useColorModeValue('pink.400', 'pink.100')}
+              isExternal
+            >
+              the GitHub repository.
+            </Link>
+          </Text>
+          <Text fontSize="xs">
+            (Credit to{' '}
+            <Link
+              href="https://instagram.com/koi3o1"
+              target="_blank"
+              isExternal
+            >
+              @koi3o1
+            </Link>{' '}
+            for the background photo)
+          </Text>
+        </Box>
       </Container>
     </Box>
   </Flex>

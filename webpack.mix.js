@@ -1,5 +1,12 @@
 const mix = require('laravel-mix');
 
+/* Testing to see what takes up so much space.
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+mix.webpackConfig({
+  plugins: [new BundleAnalyzerPlugin()],
+});
+*/
+
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
