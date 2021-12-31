@@ -1,66 +1,62 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# Itasha Community Site
+Web application being used to become a global database for itasha vehicles.
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Built on Laravel with a ReactJS + InertiaJS + ChakraUI
 
-## About Laravel
+## Requirements
+* MySQL/MariaDB Server
+* PHP >= 8.0.0
+* PHP Extensions: BCMath, Ctype, JSON, Mbstring, OpenSSL, PDO, XML
+* Composer
+* NodeJS
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Ubuntu 20.04 Installation with Nginx
+1. Make sure server is up to date
+   1. `apt-get update && apt-get upgrade`
+2. Instal NGINX
+3. Install MariaDB (newest version that supports large index keys by default)
+4. Secure MariaDB installation
+   1. `mysql_secure_installation`
+5. Setup firewall
+6. Install PHP, extensions, and other tools
+7. Update PHP settings to process for Nginx
+   1. `nano /etc/php/<version>/fpm/php.ini`
+   2. `memory_limit = 256M`
+   3. `upload_max_filesize = 64M`
+   4. `cgi.fix_pathinfo=0`
+8. Enable Gzip Compression
+9. Clone repository into /var/www/html. Rename if you want to.
+10. Setup nginx to have permission over the folder
+    1.  `chown -R www-data:www-data /var/www/html/<Folder Name>`
+    2.  `chmod -R 755 /var/www/html/<Folder Name>`
+11. Setup nginx sites-available for folder. Create symbolic link to sites-enabled
+12. Restart Nginx to refresh changes
+    1.  `systemctl restart nginx.service`
+13. Go into MariaDB and create a new database for the website
+    1.  `CREATE DATABASE <database name>;`
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
-
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[CMS Max](https://www.cmsmax.com/)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-- **[Romega Software](https://romegasoftware.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Installation
+1. Go into folder
+2. Install composer modules
+   * Development: `composer install`
+   * Production: `composer install --no-dev --optimize-autoloader`
+3. Install node modules
+   * `npm install`
+   * Development: `npm run dev` or `npm run watch`
+   * Production: `npm run prod`
+4. Change `.env.example` file into `.env`
+5. Update entries within the `.env` file to match database and other information
+   * If in production, be sure to set `APP_ENV=production` and `APP_DEBUG=false`
+6. Generate a new key
+   * `php artisan key:generate`
+7. Create database tables
+   * `php artisan migrate`
+   * If you want it seeded, then `php artisan migrate --seed`
+   * You can wipe and seed again by doing `php artisan migrate:fresh --seed`
+8. Generate encryption keys for API Auth
+   * `php artisan passport:install`
+9. Setup public symbolic link to storage folder
+   * `php artisan storage:link`
 
 ## License
-
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
