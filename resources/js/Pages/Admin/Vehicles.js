@@ -8,6 +8,7 @@ import {
   AlertDialogOverlay,
   Flex,
   Icon,
+  Image,
   Link,
   Modal,
   ModalBody,
@@ -42,6 +43,17 @@ const Vehicles = ({ vehicles }) => {
     onOpen: onDeleteOpen,
     onClose: onDeleteClose,
   } = useDisclosure();
+  const {
+    isOpen: isPictureOpen,
+    onOpen: onPictureOpen,
+    onClose: onPictureClose,
+  } = useDisclosure();
+  const [curImagePath, setCurImagePath] = useState('');
+
+  const openImage = (imgPath) => {
+    setCurImagePath(imgPath);
+    onPictureOpen();
+  };
   const [vehicle, setVehicle] = useState(null);
   const cancelRef = useRef();
   const { delete: inertiaDelete, processing } = useForm();
@@ -248,6 +260,17 @@ const Vehicles = ({ vehicles }) => {
           </AlertDialogContent>
         </AlertDialogOverlay>
       </AlertDialog>
+
+      <Modal isOpen={isPictureOpen} onClose={onPictureClose} size="2xl">
+        <ModalOverlay />
+        <ModalContent>
+          <ModalCloseButton />
+          <ModalHeader>Image of Vehicle</ModalHeader>
+          <ModalBody>
+            <Image src={curImagePath} alt="Vehicle" />
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </Flex>
   );
 };
