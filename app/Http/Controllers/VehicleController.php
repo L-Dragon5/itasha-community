@@ -53,7 +53,12 @@ class VehicleController extends Controller
     public function store(StoreVehicleRequest $request)
     {
         $validated = $request->validated();
-        $vehicle = Vehicle::create($validated);
+        $vehicle = Vehicle::create(array_merge($validated, 
+            [
+                'vehicle_type' => $validated['vehicleType'],
+                'vehicle_information' => $validated['vehicleInfo']
+            ]
+        ));
 
         // Check if a cover image has been uploaded.
         if (!empty($validated['coverImage'])) {
@@ -109,7 +114,12 @@ class VehicleController extends Controller
     public function update(UpdateVehicleRequest $request, Vehicle $vehicle)
     {
         $validated = $request->validated();
-        $vehicle->update($validated);
+        $vehicle->update(array_merge($validated, 
+            [
+                'vehicle_type' => $validated['vehicleType'],
+                'vehicle_information' => $validated['vehicleInfo']
+            ]
+        ));
 
         // Check if a cover image has been uploaded.
         if (!empty($validated['coverImage'])) {
