@@ -22,7 +22,7 @@ const UpdateVehicleForm = ({ v, onClose }) => {
   const form = useForm(
     {
       vehicleType: v.vehicle_type || '',
-      vehicleInfo: v.vehicle_info || '',
+      vehicleInfo: v.vehicle_information || '',
       series: v.series || '',
       character: v.character || '',
       city: v.city || '',
