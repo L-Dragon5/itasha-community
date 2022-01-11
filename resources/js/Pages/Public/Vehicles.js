@@ -1,5 +1,6 @@
 import { AddIcon } from '@chakra-ui/icons';
 import {
+  Box,
   Flex,
   Icon,
   Image,
@@ -44,13 +45,19 @@ const Vehicles = ({ vehicles }) => {
     {
       Header: 'Image',
       id: 'image',
+      width: 250,
       Cell: (cellInfo) => {
         const { original } = cellInfo.row;
         if (original.cover_image) {
           const imgPath = `/storage/${original.cover_image}`;
           return (
-            <Image
-              src={imgPath}
+            <Box
+              width="full"
+              height="150px"
+              backgroundImage={`url(${imgPath})`}
+              backgroundPosition="center"
+              backgroundRepeat="no-repeat"
+              backgroundSize="cover"
               onClick={() => openImage(imgPath)}
               alt="Vehicle"
               cursor="pointer"
@@ -165,7 +172,12 @@ const Vehicles = ({ vehicles }) => {
         </ModalContent>
       </Modal>
 
-      <Modal isOpen={isPictureOpen} onClose={onPictureClose} size="2xl">
+      <Modal
+        isOpen={isPictureOpen}
+        onClose={onPictureClose}
+        size="2xl"
+        isCentered
+      >
         <ModalOverlay />
         <ModalContent>
           <ModalCloseButton />
