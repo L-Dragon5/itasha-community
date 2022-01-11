@@ -2,9 +2,7 @@ import { AddIcon } from '@chakra-ui/icons';
 import {
   Box,
   Flex,
-  Icon,
   Image,
-  Link,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -25,6 +23,7 @@ import {
   SelectColumnFilter,
   TextColumnFilter,
 } from './components/DataTableFilters';
+import SocialMediaButton from './components/SocialMediaButton';
 import SubmitVehicleForm from './forms/SubmitVehicleForm';
 
 const Vehicles = ({ vehicles }) => {
@@ -120,25 +119,21 @@ const Vehicles = ({ vehicles }) => {
     {
       Header: 'Social Media',
       Cell: (cellInfo) => {
-        const { original } = cellInfo.row;
+        const { instagram, twitter } = cellInfo.row.original;
         return (
           <>
-            {original.instagram && original.instagram !== '' && (
-              <Link
-                href={`https://instagram.com/${original.instagram}`}
-                target="_blank"
-              >
-                <Icon as={AiOutlineInstagram} boxSize={7} />
-              </Link>
+            {instagram && (
+              <SocialMediaButton
+                link={`https://instagram.com/${instagram}`}
+                icon={AiOutlineInstagram}
+              />
             )}
 
-            {original.twitter && original.twitter !== '' && (
-              <Link
-                href={`https://twitter.com/${original.twitter}`}
-                target="_blank"
-              >
-                <Icon as={AiOutlineTwitter} boxSize={7} />
-              </Link>
+            {twitter && (
+              <SocialMediaButton
+                link={`https://twitter.com/${twitter}`}
+                icon={AiOutlineTwitter}
+              />
             )}
           </>
         );

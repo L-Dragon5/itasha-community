@@ -20,6 +20,10 @@ class Group extends Model implements Auditable
         'exclusivity',
         'notes',
         'instagram',
+        'twitter',
+        'fb_chat',
+        'fb_group',
+        'discord',
         'is_approved',
     ];
 }

@@ -1,8 +1,6 @@
 import { AddIcon } from '@chakra-ui/icons';
 import {
   Flex,
-  Icon,
-  Link,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -14,7 +12,11 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import React, { useMemo } from 'react';
-import { AiOutlineGlobal, AiOutlineInstagram } from 'react-icons/ai';
+import {
+  AiOutlineGlobal,
+  AiOutlineInstagram,
+  AiOutlineTwitter,
+} from 'react-icons/ai';
 
 import BaseLayout from './BaseLayout';
 import Button from './components/Button';
@@ -23,6 +25,7 @@ import {
   SelectColumnFilter,
   TextColumnFilter,
 } from './components/DataTableFilters';
+import SocialMediaButton from './components/SocialMediaButton';
 import SubmitDesignerForm from './forms/SubmitDesignerForm';
 
 const Designers = ({ designers }) => {
@@ -55,22 +58,25 @@ const Designers = ({ designers }) => {
     {
       Header: 'Contact',
       Cell: (cellInfo) => {
-        const { original } = cellInfo.row;
+        const { website, instagram, twitter } = cellInfo.row.original;
         return (
           <>
-            {original.website && original.website !== '' && (
-              <Link href={original.website} target="_blank">
-                <Icon as={AiOutlineGlobal} boxSize={7} />
-              </Link>
+            {website && (
+              <SocialMediaButton link={website} icon={AiOutlineGlobal} />
             )}
 
-            {original.instagram && original.instagram !== '' && (
-              <Link
-                href={`https://instagram.com/${original.instagram}`}
-                target="_blank"
-              >
-                <Icon as={AiOutlineInstagram} boxSize={7} />
-              </Link>
+            {instagram && (
+              <SocialMediaButton
+                link={`https://instagram.com/${instagram}`}
+                icon={AiOutlineInstagram}
+              />
+            )}
+
+            {twitter && (
+              <SocialMediaButton
+                link={`https://twitter.com/${twitter}`}
+                icon={AiOutlineTwitter}
+              />
             )}
           </>
         );

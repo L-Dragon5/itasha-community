@@ -20,6 +20,7 @@ class Designer extends Model implements Auditable
         'lat',
         'website',
         'instagram',
+        'twitter',
         'is_approved',
     ];
 }

@@ -1,8 +1,6 @@
 import { AddIcon } from '@chakra-ui/icons';
 import {
   Flex,
-  Icon,
-  Link,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -14,7 +12,12 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import React, { useMemo } from 'react';
-import { AiOutlineInstagram } from 'react-icons/ai';
+import {
+  AiOutlineFacebook,
+  AiOutlineInstagram,
+  AiOutlineTwitter,
+} from 'react-icons/ai';
+import { BsDiscord, BsMessenger } from 'react-icons/bs';
 
 import BaseLayout from './BaseLayout';
 import Button from './components/Button';
@@ -23,6 +26,7 @@ import {
   SelectColumnFilter,
   TextColumnFilter,
 } from './components/DataTableFilters';
+import SocialMediaButton from './components/SocialMediaButton';
 import SubmitGroupForm from './forms/SubmitGroupForm';
 
 const Groups = ({ groups }) => {
@@ -63,14 +67,32 @@ const Groups = ({ groups }) => {
     {
       Header: 'Social Media',
       Cell: (cellInfo) => {
-        const { original } = cellInfo.row;
+        const { instagram, twitter, fb_chat, fb_group, discord } =
+          cellInfo.row.original;
         return (
-          <Link
-            href={`https://instagram.com/${original.instagram}`}
-            target="_blank"
-          >
-            <Icon as={AiOutlineInstagram} boxSize={7} />
-          </Link>
+          <>
+            {instagram && (
+              <SocialMediaButton
+                link={`https://instagram.com/${instagram}`}
+                icon={AiOutlineInstagram}
+              />
+            )}
+
+            {twitter && (
+              <SocialMediaButton
+                link={`https://twitter.com/${twitter}`}
+                icon={AiOutlineTwitter}
+              />
+            )}
+
+            {fb_chat && <SocialMediaButton link={fb_chat} icon={BsMessenger} />}
+
+            {fb_group && (
+              <SocialMediaButton link={fb_group} icon={AiOutlineFacebook} />
+            )}
+
+            {discord && <SocialMediaButton link={discord} icon={BsDiscord} />}
+          </>
         );
       },
     },

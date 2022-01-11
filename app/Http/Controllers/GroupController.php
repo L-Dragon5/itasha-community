@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Group;
 use App\Http\Requests\StoreGroupRequest;
-use App\Http\Requests\UpdateGroupRequest;
 use Inertia\Inertia;
 
 class GroupController extends Controller
@@ -81,11 +80,11 @@ class GroupController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateGroupRequest  $request
+     * @param  \App\Http\Requests\StoreGroupRequest  $request
      * @param  \App\Models\Group  $group
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateGroupRequest $request, Group $group)
+    public function update(StoreGroupRequest $request, Group $group)
     {
         $group->update($request->validated());
 

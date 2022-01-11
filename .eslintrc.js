@@ -36,5 +36,6 @@ module.exports = {
     'react/function-component-definition': 'off',
     'simple-import-sort/imports': 'error',
     'simple-import-sort/exports': 'error',
+    'react/no-unstable-nested-components': 'off',
   },
 };

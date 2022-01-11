@@ -7,8 +7,6 @@ import {
   AlertDialogHeader,
   AlertDialogOverlay,
   Flex,
-  Icon,
-  Link,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -20,13 +18,18 @@ import {
 import { Inertia } from '@inertiajs/inertia';
 import { useForm } from '@inertiajs/inertia-react';
 import React, { useMemo, useRef, useState } from 'react';
-import { AiOutlineGlobal, AiOutlineInstagram } from 'react-icons/ai';
+import {
+  AiOutlineGlobal,
+  AiOutlineInstagram,
+  AiOutlineTwitter,
+} from 'react-icons/ai';
 
 import DataTable from '../Public/components/DataTable';
 import {
   SelectColumnFilter,
   TextColumnFilter,
 } from '../Public/components/DataTableFilters';
+import SocialMediaButton from '../Public/components/SocialMediaButton';
 import AdminLayout from './AdminLayout';
 import Button from './components/Button';
 import UpdateDesignerForm from './forms/UpdateDesignerForm';
@@ -112,22 +115,25 @@ const Designers = ({ designers }) => {
     {
       Header: 'Contact',
       Cell: (cellInfo) => {
-        const { original } = cellInfo.row;
+        const { website, instagram, twitter } = cellInfo.row.original;
         return (
           <>
-            {original.website && original.website !== '' && (
-              <Link href={original.website} target="_blank">
-                <Icon as={AiOutlineGlobal} boxSize={7} />
-              </Link>
+            {website && (
+              <SocialMediaButton link={website} icon={AiOutlineGlobal} />
             )}
 
-            {original.instagram && original.instagram !== '' && (
-              <Link
-                href={`https://instagram.com/${original.instagram}`}
-                target="_blank"
-              >
-                <Icon as={AiOutlineInstagram} boxSize={7} />
-              </Link>
+            {instagram && (
+              <SocialMediaButton
+                link={`https://instagram.com/${instagram}`}
+                icon={AiOutlineInstagram}
+              />
+            )}
+
+            {twitter && (
+              <SocialMediaButton
+                link={`https://twitter.com/${twitter}`}
+                icon={AiOutlineTwitter}
+              />
             )}
           </>
         );

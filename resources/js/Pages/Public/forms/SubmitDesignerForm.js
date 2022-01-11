@@ -27,6 +27,7 @@ const SubmitDesignerForm = ({ onClose }) => {
       lng: '',
       website: '',
       instagram: '',
+      twitter: '',
     },
     'SubmitDesigner',
   );
@@ -157,10 +158,20 @@ const SubmitDesignerForm = ({ onClose }) => {
           <Input
             value={data.instagram}
             onChange={(e) => setData('instagram', e.target.value)}
-            placeholder="Instagram"
+            placeholder="@..."
             data-cy="instagram-input"
           />
           <FormErrorMessage>{errors?.instagram}</FormErrorMessage>
+        </FormControl>
+        <FormControl id="twitter" isInvalid={!!errors?.twitter}>
+          <FormLabel>Twitter</FormLabel>
+          <Input
+            value={data.twitter}
+            onChange={(e) => setData('twitter', e.target.value)}
+            placeholder="@..."
+            data-cy="twitter-input"
+          />
+          <FormErrorMessage>{errors?.twitter}</FormErrorMessage>
         </FormControl>
       </HStack>
 

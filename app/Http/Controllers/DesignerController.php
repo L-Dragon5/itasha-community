@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Designer;
 use App\Http\Requests\StoreDesignerRequest;
-use App\Http\Requests\UpdateDesignerRequest;
 use Inertia\Inertia;
 
 class DesignerController extends Controller
@@ -81,11 +80,11 @@ class DesignerController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateDesignerRequest  $request
+     * @param  \App\Http\Requests\StoreDesignerRequest  $request
      * @param  \App\Models\Designer  $designer
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateDesignerRequest $request, Designer $designer)
+    public function update(StoreDesignerRequest $request, Designer $designer)
     {
         $designer->update($request->validated());
 
