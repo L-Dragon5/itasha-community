@@ -75,6 +75,18 @@ const Groups = ({ groups }) => {
 
   const columns = useMemo(() => [
     {
+      Header: 'Approval Status',
+      accessor: (row) => {
+        if (row.is_approved) {
+          return 'Yes';
+        }
+
+        return 'No';
+      },
+      Filter: SelectColumnFilter,
+      filter: 'includes',
+    },
+    {
       Header: 'Name',
       accessor: 'name',
       Filter: TextColumnFilter,
