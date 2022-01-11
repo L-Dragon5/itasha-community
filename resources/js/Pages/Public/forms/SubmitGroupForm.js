@@ -27,6 +27,10 @@ const SubmitGroupForm = ({ onClose }) => {
       exclusivity: '',
       notes: '',
       instagram: '',
+      twitter: '',
+      fb_chat: '',
+      fb_group: '',
+      discord: '',
     },
     'SubmitGroup',
   );
@@ -141,15 +145,64 @@ const SubmitGroupForm = ({ onClose }) => {
           />
           <FormErrorMessage>{errors?.notes}</FormErrorMessage>
         </FormControl>
+      </HStack>
+
+      <HStack my={4} spacing={4}>
         <FormControl id="instagram" isInvalid={!!errors?.instagram}>
           <FormLabel>Instagram</FormLabel>
           <Input
             value={data.instagram}
             onChange={(e) => setData('instagram', e.target.value)}
-            placeholder="Instagram"
+            placeholder="@..."
             data-cy="instagram-input"
           />
           <FormErrorMessage>{errors?.instagram}</FormErrorMessage>
+        </FormControl>
+
+        <FormControl id="twitter" isInvalid={!!errors?.twitter}>
+          <FormLabel>Twitter</FormLabel>
+          <Input
+            value={data.twitter}
+            onChange={(e) => setData('twitter', e.target.value)}
+            placeholder="@..."
+            data-cy="twitter-input"
+          />
+          <FormErrorMessage>{errors?.twitter}</FormErrorMessage>
+        </FormControl>
+      </HStack>
+
+      <HStack my={4} spacing={4}>
+        <FormControl id="fb_chat" isInvalid={!!errors?.fb_chat}>
+          <FormLabel>Facebook Chat</FormLabel>
+          <Input
+            value={data.fb_chat}
+            onChange={(e) => setData('fb_chat', e.target.value)}
+            placeholder="https://..."
+            data-cy="fb_chat-input"
+          />
+          <FormErrorMessage>{errors?.fb_chat}</FormErrorMessage>
+        </FormControl>
+
+        <FormControl id="fb_group" isInvalid={!!errors?.fb_group}>
+          <FormLabel>Facebook Group</FormLabel>
+          <Input
+            value={data.fb_group}
+            onChange={(e) => setData('fb_group', e.target.value)}
+            placeholder="https://..."
+            data-cy="fb_group-input"
+          />
+          <FormErrorMessage>{errors?.fb_group}</FormErrorMessage>
+        </FormControl>
+
+        <FormControl id="discord" isInvalid={!!errors?.discord}>
+          <FormLabel>Discord</FormLabel>
+          <Input
+            value={data.discord}
+            onChange={(e) => setData('discord', e.target.value)}
+            placeholder="https://... (make sure it's permanent)"
+            data-cy="discord-input"
+          />
+          <FormErrorMessage>{errors?.discord}</FormErrorMessage>
         </FormControl>
       </HStack>
 

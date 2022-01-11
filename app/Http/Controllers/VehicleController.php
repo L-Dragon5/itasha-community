@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Vehicle;
 use App\Http\Requests\StoreVehicleRequest;
-use App\Http\Requests\UpdateVehicleRequest;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
@@ -107,11 +106,11 @@ class VehicleController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateVehicleRequest  $request
+     * @param  \App\Http\Requests\StoreVehicleRequest  $request
      * @param  \App\Models\Vehicle  $vehicle
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateVehicleRequest $request, Vehicle $vehicle)
+    public function update(StoreVehicleRequest $request, Vehicle $vehicle)
     {
         $validated = $request->validated();
         $vehicle->update(array_merge($validated, 

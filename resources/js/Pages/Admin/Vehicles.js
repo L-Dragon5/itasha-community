@@ -7,9 +7,7 @@ import {
   AlertDialogHeader,
   AlertDialogOverlay,
   Flex,
-  Icon,
   Image,
-  Link,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -28,6 +26,7 @@ import {
   SelectColumnFilter,
   TextColumnFilter,
 } from '../Public/components/DataTableFilters';
+import SocialMediaButton from '../Public/components/SocialMediaButton';
 import AdminLayout from './AdminLayout';
 import Button from './components/Button';
 import UpdateVehicleForm from './forms/UpdateVehicleForm';
@@ -170,25 +169,21 @@ const Vehicles = ({ vehicles }) => {
     {
       Header: 'Social Media',
       Cell: (cellInfo) => {
-        const { original } = cellInfo.row;
+        const { instagram, twitter } = cellInfo.row.original;
         return (
           <>
-            {original.instagram && original.instagram !== '' && (
-              <Link
-                href={`https://instagram.com/${original.instagram}`}
-                target="_blank"
-              >
-                <Icon as={AiOutlineInstagram} boxSize={7} />
-              </Link>
+            {instagram && (
+              <SocialMediaButton
+                link={`https://instagram.com/${instagram}`}
+                icon={AiOutlineInstagram}
+              />
             )}
 
-            {original.twitter && original.twitter !== '' && (
-              <Link
-                href={`https://twitter.com/${original.twitter}`}
-                target="_blank"
-              >
-                <Icon as={AiOutlineTwitter} boxSize={7} />
-              </Link>
+            {twitter && (
+              <SocialMediaButton
+                link={`https://twitter.com/${twitter}`}
+                icon={AiOutlineTwitter}
+              />
             )}
           </>
         );

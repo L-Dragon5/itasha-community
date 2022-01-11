@@ -20,13 +20,19 @@ import {
 import { Inertia } from '@inertiajs/inertia';
 import { useForm } from '@inertiajs/inertia-react';
 import React, { useMemo, useRef, useState } from 'react';
-import { AiOutlineInstagram } from 'react-icons/ai';
+import {
+  AiOutlineFacebook,
+  AiOutlineInstagram,
+  AiOutlineTwitter,
+} from 'react-icons/ai';
+import { BsDiscord, BsMessenger } from 'react-icons/bs';
 
 import DataTable from '../Public/components/DataTable';
 import {
   SelectColumnFilter,
   TextColumnFilter,
 } from '../Public/components/DataTableFilters';
+import SocialMediaButton from '../Public/components/SocialMediaButton';
 import AdminLayout from './AdminLayout';
 import Button from './components/Button';
 import UpdateGroupForm from './forms/UpdateGroupForm';
@@ -120,14 +126,32 @@ const Groups = ({ groups }) => {
     {
       Header: 'Social Media',
       Cell: (cellInfo) => {
-        const { original } = cellInfo.row;
+        const { instagram, twitter, fb_chat, fb_group, discord } =
+          cellInfo.row.original;
         return (
-          <Link
-            href={`https://instagram.com/${original.instagram}`}
-            target="_blank"
-          >
-            <Icon as={AiOutlineInstagram} boxSize={7} />
-          </Link>
+          <>
+            {instagram && (
+              <SocialMediaButton
+                link={`https://instagram.com/${instagram}`}
+                icon={AiOutlineInstagram}
+              />
+            )}
+
+            {twitter && (
+              <SocialMediaButton
+                link={`https://twitter.com/${twitter}`}
+                icon={AiOutlineTwitter}
+              />
+            )}
+
+            {fb_chat && <SocialMediaButton link={fb_chat} icon={BsMessenger} />}
+
+            {fb_group && (
+              <SocialMediaButton link={fb_group} icon={AiOutlineFacebook} />
+            )}
+
+            {discord && <SocialMediaButton link={discord} icon={BsDiscord} />}
+          </>
         );
       },
     },

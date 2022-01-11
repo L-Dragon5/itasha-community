@@ -206,7 +206,7 @@ const UpdateVehicleForm = ({ v, onClose }) => {
           <Input
             value={data.instagram}
             onChange={(e) => setData('instagram', e.target.value)}
-            placeholder="Instagram"
+            placeholder="@..."
             data-cy="instagram-input"
           />
           <FormErrorMessage>{errors?.instagram}</FormErrorMessage>
@@ -217,7 +217,7 @@ const UpdateVehicleForm = ({ v, onClose }) => {
           <Input
             value={data.twitter}
             onChange={(e) => setData('twitter', e.target.value)}
-            placeholder="Twitter"
+            placeholder="@..."
             data-cy="twitter-input"
           />
           <FormErrorMessage>{errors?.instagram}</FormErrorMessage>
