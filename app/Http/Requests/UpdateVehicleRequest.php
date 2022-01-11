@@ -35,7 +35,29 @@ class UpdateVehicleRequest extends FormRequest
             'lng' => 'numeric|nullable',
             'designer' => 'string|nullable',
             'instagram' => 'string|nullable',
+            'twitter' => 'string|nullable',
             'coverImage' => 'image|nullable',
         ];
+    }
+
+    /**
+     * Prepare data for validation.
+     * 
+     * @return void
+     */
+    protected function prepareForValidation(): void
+    {
+        $twitter_val = str_replace('https://twitter.com/', '', $this->twitter);
+        $twitter_val = ltrim($twitter_val, '@');
+        $twitter_val = rtrim($twitter_val, '/');
+
+        $instagram_val = str_replace('https://instagram.com/', '', $this->instagram);
+        $instagram_val = ltrim($instagram_val, '@');
+        $instagram_val = rtrim($instagram_val, '/');
+
+        $this->merge([
+            'twitter' => $twitter_val,
+            'instagram' => $instagram_val,
+        ]);
     }
 }

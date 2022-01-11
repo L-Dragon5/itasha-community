@@ -21,7 +21,7 @@ import {
 import { Inertia } from '@inertiajs/inertia';
 import { useForm } from '@inertiajs/inertia-react';
 import React, { useMemo, useRef, useState } from 'react';
-import { AiOutlineInstagram } from 'react-icons/ai';
+import { AiOutlineInstagram, AiOutlineTwitter } from 'react-icons/ai';
 
 import DataTable from '../Public/components/DataTable';
 import {
@@ -179,6 +179,15 @@ const Vehicles = ({ vehicles }) => {
                 target="_blank"
               >
                 <Icon as={AiOutlineInstagram} boxSize={7} />
+              </Link>
+            )}
+
+            {original.twitter && original.twitter !== '' && (
+              <Link
+                href={`https://twitter.com/${original.twitter}`}
+                target="_blank"
+              >
+                <Icon as={AiOutlineTwitter} boxSize={7} />
               </Link>
             )}
           </>

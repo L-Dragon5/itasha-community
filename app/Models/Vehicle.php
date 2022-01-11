@@ -24,6 +24,7 @@ class Vehicle extends Model implements Auditable
         'lng',
         'lat',
         'instagram',
+        'twitter',
         'is_approved',
         'cover_image',
     ];

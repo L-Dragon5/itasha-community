@@ -30,6 +30,7 @@ const SubmitVehicleForm = ({ onClose }) => {
       lng: '',
       designer: '',
       instagram: '',
+      twitter: '',
       coverImage: '',
     },
     'SubmitVehicle',
@@ -208,6 +209,17 @@ const SubmitVehicleForm = ({ onClose }) => {
             onChange={(e) => setData('instagram', e.target.value)}
             placeholder="Instagram"
             data-cy="instagram-input"
+          />
+          <FormErrorMessage>{errors?.instagram}</FormErrorMessage>
+        </FormControl>
+
+        <FormControl id="twitter" isInvalid={!!errors?.twitter}>
+          <FormLabel>Twitter</FormLabel>
+          <Input
+            value={data.twitter}
+            onChange={(e) => setData('twitter', e.target.value)}
+            placeholder="Twitter"
+            data-cy="twitter-input"
           />
           <FormErrorMessage>{errors?.instagram}</FormErrorMessage>
         </FormControl>
