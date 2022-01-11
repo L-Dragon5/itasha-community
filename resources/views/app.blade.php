@@ -25,6 +25,8 @@
         </script>
         @endif
     @endproduction
+
+    @inertiaHead
 </head>
 <body>
 @inertia
