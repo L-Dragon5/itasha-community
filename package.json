@@ -7,7 +7,7 @@
         "watch-poll": "mix watch -- --watch-options-poll=1000",
         "hot": "mix watch --hot",
         "prod": "npm run production",
-        "production": "mix --production"
+        "production": "mix --production && mix --production --mix-config=webpack.ssr.mix.js"
     },
     "devDependencies": {
         "@babel/eslint-parser": "^7.16.5",
@@ -28,13 +28,14 @@
     },
     "dependencies": {
         "@chakra-ui/icons": "^1.1.1",
-        "@chakra-ui/provider": "^1.7.2",
-        "@chakra-ui/react": "^1.7.3",
+        "@chakra-ui/provider": "^1.7.4",
+        "@chakra-ui/react": "^1.7.4",
         "@emotion/react": "^11.7.1",
         "@emotion/styled": "^11.6.0",
-        "@inertiajs/inertia": "^0.10.1",
-        "@inertiajs/inertia-react": "^0.7.1",
-        "@inertiajs/progress": "^0.2.6",
+        "@inertiajs/inertia": "^0.11.0",
+        "@inertiajs/inertia-react": "^0.8.0",
+        "@inertiajs/progress": "^0.2.7",
+        "@inertiajs/server": "^0.1.0",
         "country-state-city": "^3.0.1",
         "framer-motion": "^4.1.17",
         "match-sorter": "^6.3.1",
@@ -42,6 +43,7 @@
         "react-icons": "^4.3.1",
         "react-lazy-load-image-component": "^1.5.1",
         "react-table": "^7.7.0",
-        "regenerator-runtime": "^0.13.9"
+        "regenerator-runtime": "^0.13.9",
+        "webpack-node-externals": "^3.0.0"
     }
 }
