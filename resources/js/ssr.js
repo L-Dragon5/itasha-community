@@ -16,13 +16,12 @@ createServer((page) =>
     page,
     render: ReactDOMServer.renderToString,
     resolve: (name) => require(`./Pages/${name}`),
-    setup({ el, App, props }) {
+    setup({ App, props }) {
       render(
         <ChakraProvider resetCSS theme={theme}>
           <ColorModeScript initialColorMode={theme.config.initialColorMode} />
           <App {...props} />
         </ChakraProvider>,
-        el,
       );
     },
   }),
