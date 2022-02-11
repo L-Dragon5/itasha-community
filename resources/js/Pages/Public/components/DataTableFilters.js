@@ -22,7 +22,9 @@ export const SelectColumnFilter = ({
   const options = useMemo(() => {
     const opts = new Set();
     preFilteredRows.forEach((row) => {
-      opts.add(row.values[id]);
+      if (row.values[id] !== null && row.values[id] !== '') {
+        opts.add(row.values[id]);
+      }
     });
 
     return [...opts.values()];
