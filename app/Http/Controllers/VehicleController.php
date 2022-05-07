@@ -130,7 +130,7 @@ class VehicleController extends Controller
             unset($validated['vehicleInfo']);
         }
 
-        $vehicle = Vehicle::create($validated);
+        $vehicle->update($validated);
 
         // Check if a cover image has been uploaded.
         if (!empty($validated['coverImage'])) {
