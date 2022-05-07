@@ -58,7 +58,7 @@ class VehicleController extends Controller
             unset($validated['vehicleType']);
         }
 
-        if (isset($validated['vehicle_information'])) {
+        if (isset($validated['vehicleInfo'])) {
             $validated['vehicle_information'] = $validated['vehicleInfo'];
             unset($validated['vehicleInfo']);
         }
@@ -125,7 +125,7 @@ class VehicleController extends Controller
             unset($validated['vehicleType']);
         }
 
-        if (isset($validated['vehicle_information'])) {
+        if (isset($validated['vehicleInfo'])) {
             $validated['vehicle_information'] = $validated['vehicleInfo'];
             unset($validated['vehicleInfo']);
         }
