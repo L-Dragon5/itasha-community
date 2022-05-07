@@ -52,12 +52,18 @@ class VehicleController extends Controller
     public function store(StoreVehicleRequest $request)
     {
         $validated = $request->validated();
-        $vehicle = Vehicle::create(array_merge($validated, 
-            [
-                'vehicle_type' => $validated['vehicleType'],
-                'vehicle_information' => $validated['vehicleInfo']
-            ]
-        ));
+        $validated = array_filter($validated); // Remove keys with empty.
+        if (isset($validated['vehicleType'])) {
+            $validated['vehicle_type'] = $validated['vehicleType'];
+            unset($validated['vehicleType']);
+        }
+
+        if (isset($validated['vehicle_information'])) {
+            $validated['vehicle_information'] = $validated['vehicleInfo'];
+            unset($validated['vehicleInfo']);
+        }
+
+        $vehicle = Vehicle::create($validated);
 
         // Check if a cover image has been uploaded.
         if (!empty($validated['coverImage'])) {
@@ -113,12 +119,18 @@ class VehicleController extends Controller
     public function update(StoreVehicleRequest $request, Vehicle $vehicle)
     {
         $validated = $request->validated();
-        $vehicle->update(array_merge($validated, 
-            [
-                'vehicle_type' => $validated['vehicleType'],
-                'vehicle_information' => $validated['vehicleInfo']
-            ]
-        ));
+        $validated = array_filter($validated); // Remove keys with empty.
+        if (isset($validated['vehicleType'])) {
+            $validated['vehicle_type'] = $validated['vehicleType'];
+            unset($validated['vehicleType']);
+        }
+
+        if (isset($validated['vehicle_information'])) {
+            $validated['vehicle_information'] = $validated['vehicleInfo'];
+            unset($validated['vehicleInfo']);
+        }
+
+        $vehicle = Vehicle::create($validated);
 
         // Check if a cover image has been uploaded.
         if (!empty($validated['coverImage'])) {

@@ -31,7 +31,7 @@ class Vehicle extends Model implements Auditable
 
     protected static function booted() {
         static::deleting(function ($vehicle) {
-            if ($vehicle->cover_image !== 'placeholder.webp') {
+            if (!empty($vehicle->cover_image) && $vehicle->cover_image !== 'placeholder.webp') {
                 Storage::disk('public')->delete($vehicle->cover_image);
             }
         });
