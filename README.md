@@ -58,5 +58,11 @@ Built on Laravel with a ReactJS + InertiaJS + ChakraUI
 9. Setup public symbolic link to storage folder
    * `php artisan storage:link`
 
+## SSR
+`node public/js/ssr.js`
+
+`pidof node`
+`kill <num>`
+
 ## License
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
