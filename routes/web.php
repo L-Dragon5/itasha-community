@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\DesignerController;
 use App\Http\Controllers\GroupController;
-use App\Models\Vehicle;
+use App\Http\Controllers\IndexController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,7 +18,7 @@ use App\Models\Vehicle;
 |
 */
 
-Route::get('/', fn() => Inertia::render('Public/Index'));
+Route::get('/', [IndexController::class, 'index']);
 
 Route::resource('vehicles', VehicleController::class)->only(['index', 'store']);
 Route::resource('designers', DesignerController::class)->only(['index', 'store']);

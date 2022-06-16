@@ -5,23 +5,22 @@ import {
   AccordionItem,
   AccordionPanel,
   Box,
-  Center,
   Code,
   Container,
   Flex,
   Heading,
   Link,
   Text,
-  useBreakpointValue,
   useColorModeValue,
 } from '@chakra-ui/react';
+import { Wrapper } from '@googlemaps/react-wrapper';
 import React from 'react';
 
 import BaseLayout from './BaseLayout';
+import Map from './components/Map';
+import Marker from './components/Marker';
 
-const Index = () => {
-  const headingSize = useBreakpointValue({ base: 'md', md: 'xl' });
-
+const Index = ({ locations }) => {
   const accordionItems = [
     {
       heading: '"I submitted my vehicle, but I don\'t see it yet?"',
@@ -131,35 +130,19 @@ const Index = () => {
         justifyContent="center"
         position="relative"
       >
-        <Flex
-          minH="300px"
-          h="full"
-          w="full"
-          backgroundImage="/storage/car-background.jpg"
-          backgroundSize="cover"
-          backgroundRepeat="no-repeat"
-          backgroundPosition="center"
-          filter="blur(8px) brightness(0.3)"
-        />
-        <Flex
-          as={Center}
-          h="full"
-          position="absolute"
-          direction="column"
-          justifyContent="space-around"
-          color="white"
-          p={2}
-        >
-          <Heading variant="h4" size={headingSize} textAlign="center">
-            A growing database of itashas around the world
-          </Heading>
-          <Heading variant="h4" size={headingSize} textAlign="center">
-            Designers and resources for your next project
-          </Heading>
-          <Heading variant="h4" size={headingSize} textAlign="center">
-            Find a local group
-          </Heading>
-        </Flex>
+        <Wrapper apiKey={process.env.MIX_GOOGLE_MAPS_KEY}>
+          <Map center={{ lat: 36, lng: 0 }} zoom={3}>
+            {locations.map((loc) => (
+              <Marker
+                key={`${loc.id} + ${loc.name}`}
+                position={{
+                  lng: parseFloat(loc.lng),
+                  lat: parseFloat(loc.lat),
+                }}
+              />
+            ))}
+          </Map>
+        </Wrapper>
       </Flex>
 
       <Box bg={useColorModeValue('gray.100', 'gray.600')} p={3}>
