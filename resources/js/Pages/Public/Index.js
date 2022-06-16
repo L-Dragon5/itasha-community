@@ -139,6 +139,7 @@ const Index = ({ locations }) => {
                   lng: parseFloat(loc.lng),
                   lat: parseFloat(loc.lat),
                 }}
+                info={loc}
               />
             ))}
           </Map>

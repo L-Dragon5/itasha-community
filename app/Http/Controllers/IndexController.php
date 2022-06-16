@@ -36,32 +36,17 @@ class IndexController extends Controller
 
         foreach ($vehicles as $vehicle) {
             $this->checkIfDuplicateCoords($coordinatesList, $vehicle);
-            $locations[] = [
-                'type' => 'vehicle',
-                'id' => $vehicle->id,
-                'lng' => $vehicle->lng,
-                'lat' => $vehicle->lat,
-            ];
+            $locations[] = array_merge(['type' => 'vehicle'], $vehicle->toArray());
         }
 
         foreach ($groups as $group) {
             $this->checkIfDuplicateCoords($coordinatesList, $group);
-            $locations[] = [
-                'type' => 'group',
-                'id' => $group->id,
-                'lng' => $group->lng,
-                'lat' => $group->lat,
-            ];
+            $locations[] = array_merge(['type' => 'group'], $group->toArray());
         }
 
         foreach ($designers as $designer) {
             $this->checkIfDuplicateCoords($coordinatesList, $designer);
-            $locations[] = [
-                'type' => 'designer',
-                'id' => $designer->id,
-                'lng' => $designer->lng,
-                'lat' => $designer->lat,
-            ];
+            $locations[] = array_merge(['type' => 'designer'], $designer->toArray());
         }
 
         return Inertia::render('Public/Index', [
