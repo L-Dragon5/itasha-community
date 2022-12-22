@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Jenssegers\Mongodb\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 
 class Vehicle extends Model implements Auditable
@@ -26,6 +26,9 @@ class Vehicle extends Model implements Auditable
         'twitter',
         'is_approved',
         'cover_image',
+    ];
+    protected $attributes = [
+        'is_approved' => false,
     ];
 
     protected static function booted()

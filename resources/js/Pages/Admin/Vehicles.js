@@ -58,12 +58,12 @@ const Vehicles = ({ vehicles }) => {
   const { delete: inertiaDelete, processing } = useForm();
 
   const openVehicleUpdate = (id) => {
-    setVehicle(vehicles.find((v) => v.id === id));
+    setVehicle(vehicles.find((v) => v._id === id));
     onUpdateOpen();
   };
 
   const openVehicleDelete = (id) => {
-    setVehicle(vehicles.find((v) => v.id === id));
+    setVehicle(vehicles.find((v) => v._id === id));
     onDeleteOpen();
   };
 
@@ -76,7 +76,7 @@ const Vehicles = ({ vehicles }) => {
   };
 
   const onDelete = () => {
-    inertiaDelete(`/vehicles/${vehicle.id}`, {
+    inertiaDelete(`/vehicles/${vehicle._id}`, {
       onSuccess: () => {
         onDeleteClose();
         Inertia.reload({ only: ['vehicles'] });
@@ -195,10 +195,10 @@ const Vehicles = ({ vehicles }) => {
         const { original } = cellInfo.row;
         return (
           <>
-            {original.is_approved === 0 && (
+            {!original.is_approved && (
               <CheckIcon
                 aria-label="Approve vehicle"
-                onClick={() => onApprove(original.id)}
+                onClick={() => onApprove(original._id)}
                 boxSize={7}
                 cursor="pointer"
               />
@@ -206,13 +206,13 @@ const Vehicles = ({ vehicles }) => {
 
             <EditIcon
               aria-label="Edit vehicle"
-              onClick={() => openVehicleUpdate(original.id)}
+              onClick={() => openVehicleUpdate(original._id)}
               boxSize={7}
               cursor="pointer"
             />
             <DeleteIcon
               aria-label="Delete vehicle"
-              onClick={() => openVehicleDelete(original.id)}
+              onClick={() => openVehicleDelete(original._id)}
               boxSize={7}
               cursor="pointer"
             />

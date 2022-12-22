@@ -39,7 +39,7 @@ Route::middleware(['auth.basic'])->group(function () {
 
 Route::prefix('master')->middleware(['auth.basic'])->group(function () {
     Route::get('/', function () {
-        $audits = \OwenIt\Auditing\Models\Audit::orderBy('created_at', 'desc')->get();
+        $audits = App\Models\MongoAudit::orderBy('created_at', 'desc')->get();
 
         return Inertia::render('Admin/Index', [
             'audits' => $audits,

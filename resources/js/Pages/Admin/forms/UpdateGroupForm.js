@@ -40,7 +40,7 @@ const UpdateGroupForm = ({ g, onClose }) => {
 
   const onSave = (e) => {
     e.preventDefault();
-    patch(`/groups/${g.id}`, {
+    patch(`/groups/${g._id}`, {
       onSuccess: () => {
         reset();
         onClose();

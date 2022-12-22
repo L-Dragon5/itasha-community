@@ -134,7 +134,7 @@ const Index = ({ locations }) => {
           <Map center={{ lat: 36, lng: 0 }} zoom={3}>
             {locations.map((loc) => (
               <Marker
-                key={`${loc.id} + ${loc.name}`}
+                key={`${loc._id} + ${loc.name}`}
                 position={{
                   lng: parseFloat(loc.lng),
                   lat: parseFloat(loc.lat),

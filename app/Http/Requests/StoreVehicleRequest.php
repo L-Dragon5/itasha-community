@@ -24,8 +24,8 @@ class StoreVehicleRequest extends FormRequest
     public function rules()
     {
         return [
-            'vehicleType' => 'required|in:car,motorcycle,bicycle,other',
-            'vehicleInfo' => 'string|nullable',
+            'vehicle_type' => 'required|in:car,motorcycle,bicycle,other',
+            'vehicle_information' => 'string|nullable',
             'series' => 'required|string',
             'character' => 'string|nullable',
             'city' => 'string|nullable',
@@ -36,7 +36,7 @@ class StoreVehicleRequest extends FormRequest
             'designer' => 'string|nullable',
             'instagram' => 'string|nullable',
             'twitter' => 'string|nullable',
-            'coverImage' => 'image|nullable',
+            'cover_image' => 'image|nullable',
         ];
     }
 

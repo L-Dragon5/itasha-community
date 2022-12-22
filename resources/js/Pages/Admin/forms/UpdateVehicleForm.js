@@ -22,7 +22,7 @@ const UpdateVehicleForm = ({ v, onClose }) => {
   const form = useForm(
     {
       vehicleType: v.vehicle_type || '',
-      vehicleInfo: v.vehicle_information || '',
+      vehicleInformation: v.vehicle_information || '',
       series: v.series || '',
       character: v.character || '',
       city: v.city || '',
@@ -41,7 +41,7 @@ const UpdateVehicleForm = ({ v, onClose }) => {
 
   const onSave = (e) => {
     e.preventDefault();
-    patch(`/vehicles/${v.id}`, {
+    patch(`/vehicles/${v._id}`, {
       onSuccess: () => {
         reset();
         onClose();
@@ -102,15 +102,18 @@ const UpdateVehicleForm = ({ v, onClose }) => {
             <option value="other">Other</option>
           </Select>
         </FormControl>
-        <FormControl id="vehicleInfo" isInvalid={!!errors?.vehicleInfo}>
+        <FormControl
+          id="vehicleInformation"
+          isInvalid={!!errors?.vehicleInformation}
+        >
           <FormLabel>Vehicle Information</FormLabel>
           <Input
-            value={data.vehicleInfo}
-            onChange={(e) => setData('vehicleInfo', e.target.value)}
+            value={data.vehicleInformation}
+            onChange={(e) => setData('vehicleInformation', e.target.value)}
             placeholder="Year, Make, Model, etc."
             data-cy="vehicle-info-input"
           />
-          <FormErrorMessage>{errors?.vehicleInfo}</FormErrorMessage>
+          <FormErrorMessage>{errors?.vehicleInformation}</FormErrorMessage>
         </FormControl>
       </HStack>
 

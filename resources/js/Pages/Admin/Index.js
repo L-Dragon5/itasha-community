@@ -12,7 +12,7 @@ const Index = ({ audits }) => (
       <UnorderedList>
         {audits.map((audit) => (
           <ListItem
-            key={audit.id}
+            key={audit._id}
             cursor="pointer"
             onClick={() =>
               alert(

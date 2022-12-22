@@ -53,12 +53,12 @@ const Groups = ({ groups }) => {
   const { delete: inertiaDelete, processing } = useForm();
 
   const openGroupUpdate = (id) => {
-    setGroup(groups.find((g) => g.id === id));
+    setGroup(groups.find((g) => g._id === id));
     onUpdateOpen();
   };
 
   const openGroupDelete = (id) => {
-    setGroup(groups.find((v) => v.id === id));
+    setGroup(groups.find((v) => v._id === id));
     onDeleteOpen();
   };
 
@@ -71,7 +71,7 @@ const Groups = ({ groups }) => {
   };
 
   const onDelete = () => {
-    inertiaDelete(`/groups/${group.id}`, {
+    inertiaDelete(`/groups/${group._id}`, {
       onSuccess: () => {
         onDeleteClose();
         Inertia.reload({ only: ['groups'] });
@@ -161,10 +161,10 @@ const Groups = ({ groups }) => {
         const { original } = cellInfo.row;
         return (
           <>
-            {original.is_approved === 0 && (
+            {!original.is_approved && (
               <CheckIcon
                 aria-label="Approve vehicle"
-                onClick={() => onApprove(original.id)}
+                onClick={() => onApprove(original._id)}
                 boxSize={7}
                 cursor="pointer"
               />
@@ -172,13 +172,13 @@ const Groups = ({ groups }) => {
 
             <EditIcon
               aria-label="Edit vehicle"
-              onClick={() => openGroupUpdate(original.id)}
+              onClick={() => openGroupUpdate(original._id)}
               boxSize={7}
               cursor="pointer"
             />
             <DeleteIcon
               aria-label="Delete vehicle"
-              onClick={() => openGroupDelete(original.id)}
+              onClick={() => openGroupDelete(original._id)}
               boxSize={7}
               cursor="pointer"
             />

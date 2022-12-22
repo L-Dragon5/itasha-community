@@ -32,8 +32,8 @@ class DesignerController extends Controller
     public function adminIndex()
     {
         $designers = Designer::orderBy('is_approved')
-        ->orderBy('created_at')
-        ->get();
+            ->orderBy('created_at')
+            ->get();
 
         return Inertia::render('Admin/Designers', [
             'designers' => $designers,
@@ -72,7 +72,7 @@ class DesignerController extends Controller
      */
     public function approve(Designer $designer)
     {
-        $designer->update(['is_approved' => 1]);
+        $designer->update(['is_approved' => true]);
 
         return redirect()->back()->with('success', 'Successfully approved designer');
     }

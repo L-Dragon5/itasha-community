@@ -32,8 +32,8 @@ class GroupController extends Controller
     public function adminIndex()
     {
         $groups = Group::orderBy('is_approved')
-        ->orderBy('created_at')
-        ->get();
+            ->orderBy('created_at')
+            ->get();
 
         return Inertia::render('Admin/Groups', [
             'groups' => $groups,
@@ -72,7 +72,7 @@ class GroupController extends Controller
      */
     public function approve(Group $group)
     {
-        $group->update(['is_approved' => 1]);
+        $group->update(['is_approved' => true]);
 
         return redirect()->back()->with('success', 'Successfully approved group');
     }

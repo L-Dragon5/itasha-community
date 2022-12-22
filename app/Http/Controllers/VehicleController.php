@@ -53,22 +53,13 @@ class VehicleController extends Controller
     {
         $validated = $request->validated();
         $validated = array_filter($validated); // Remove keys with empty.
-        if (isset($validated['vehicleType'])) {
-            $validated['vehicle_type'] = $validated['vehicleType'];
-            unset($validated['vehicleType']);
-        }
-
-        if (isset($validated['vehicleInfo'])) {
-            $validated['vehicle_information'] = $validated['vehicleInfo'];
-            unset($validated['vehicleInfo']);
-        }
 
         $vehicle = Vehicle::create($validated);
 
         // Check if a cover image has been uploaded.
-        if (!empty($validated['coverImage'])) {
+        if (!empty($validated['cover_image'])) {
             // Create image and resize image down if necessary.
-            $img = \Image::make($validated['coverImage'])
+            $img = \Image::make($validated['cover_image'])
                 ->resize(800, null, function ($constraint) {
                     $constraint->aspectRatio();
                     $constraint->upsize();
@@ -104,7 +95,7 @@ class VehicleController extends Controller
      */
     public function approve(Vehicle $vehicle)
     {
-        $vehicle->update(['is_approved' => 1]);
+        $vehicle->update(['is_approved' => true]);
 
         return redirect()->back()->with('success', 'Successfully approved vehicle');
     }
@@ -120,25 +111,16 @@ class VehicleController extends Controller
     {
         $validated = $request->validated();
         $validated = array_filter($validated); // Remove keys with empty.
-        if (isset($validated['vehicleType'])) {
-            $validated['vehicle_type'] = $validated['vehicleType'];
-            unset($validated['vehicleType']);
-        }
-
-        if (isset($validated['vehicleInfo'])) {
-            $validated['vehicle_information'] = $validated['vehicleInfo'];
-            unset($validated['vehicleInfo']);
-        }
 
         $vehicle->update($validated);
 
         // Check if a cover image has been uploaded.
-        if (!empty($validated['coverImage'])) {
+        if (!empty($validated['cover_image'])) {
             // Retrieve old image and prepare for deletion.
             $old_image = $album->cover_image;
 
             // Create image and resize image down if necessary.
-            $img = \Image::make($validated['coverImage'])
+            $img = \Image::make($validated['cover_image'])
                 ->resize(800, null, function ($constraint) {
                     $constraint->aspectRatio();
                     $constraint->upsize();

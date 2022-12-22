@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Jenssegers\Mongodb\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 
 class Designer extends Model implements Auditable
@@ -21,5 +21,8 @@ class Designer extends Model implements Auditable
         'instagram',
         'twitter',
         'is_approved',
+    ];
+    protected $attributes = [
+        'is_approved' => false,
     ];
 }

@@ -37,7 +37,7 @@ const UpdateDesignerForm = ({ d, onClose }) => {
 
   const onSave = (e) => {
     e.preventDefault();
-    patch(`/designers/${d.id}`, {
+    patch(`/designers/${d._id}`, {
       onSuccess: () => {
         reset();
         onClose();

@@ -50,12 +50,12 @@ const Designers = ({ designers }) => {
   const { delete: inertiaDelete, processing } = useForm();
 
   const openDesignerUpdate = (id) => {
-    setDesigner(designers.find((d) => d.id === id));
+    setDesigner(designers.find((d) => d._id === id));
     onUpdateOpen();
   };
 
   const openDesignerDelete = (id) => {
-    setDesigner(designers.find((v) => v.id === id));
+    setDesigner(designers.find((v) => v._id === id));
     onDeleteOpen();
   };
 
@@ -68,7 +68,7 @@ const Designers = ({ designers }) => {
   };
 
   const onDelete = () => {
-    inertiaDelete(`/designers/${designer.id}`, {
+    inertiaDelete(`/designers/${designer._id}`, {
       onSuccess: () => {
         onDeleteClose();
         Inertia.reload({ only: ['designers'] });
@@ -145,10 +145,10 @@ const Designers = ({ designers }) => {
         const { original } = cellInfo.row;
         return (
           <>
-            {original.is_approved === 0 && (
+            {!original.is_approved && (
               <CheckIcon
                 aria-label="Approve designer"
-                onClick={() => onApprove(original.id)}
+                onClick={() => onApprove(original._id)}
                 boxSize={7}
                 cursor="pointer"
               />
@@ -156,13 +156,13 @@ const Designers = ({ designers }) => {
 
             <EditIcon
               aria-label="Edit designer"
-              onClick={() => openDesignerUpdate(original.id)}
+              onClick={() => openDesignerUpdate(original._id)}
               boxSize={7}
               cursor="pointer"
             />
             <DeleteIcon
               aria-label="Delete designer"
-              onClick={() => openDesignerDelete(original.id)}
+              onClick={() => openDesignerDelete(original._id)}
               boxSize={7}
               cursor="pointer"
             />
