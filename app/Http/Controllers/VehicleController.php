@@ -76,7 +76,7 @@ class VehicleController extends Controller
                 ->encode('webp');
             $name = md5($img->__toString()) . '.webp';
             $path = "cover_images/$name";
-            if (Storage::disk('public')->put($path, $img->__toString())) {
+            if (Storage::put($path, $img->__toString())) {
                 $vehicle->cover_image = $path;
                 $vehicle->save();
             }
@@ -146,13 +146,13 @@ class VehicleController extends Controller
                 ->encode('webp');
             $name = md5($img->__toString()) . '.webp';
             $path = "cover_images/$name";
-            if (Storage::disk('public')->put($path, $img->__toString())) {
+            if (Storage::put($path, $img->__toString())) {
                 $vehicle->cover_image = $path;
                 $vehicle->save();
             }
 
             // Delete old cover image.
-            Storage::disk('public')->delete($old_image);
+            Storage::delete($old_image);
         }
 
         return redirect()->back()->with('success', 'Successfully updated vehicle');

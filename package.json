@@ -24,6 +24,7 @@
         "prettier": "^2.7.0",
         "react": "^17.0.2",
         "react-dom": "^17.0.2",
+        "serverless-lift": "^1.21.0",
         "webpack-bundle-analyzer": "^4.5.0"
     },
     "dependencies": {

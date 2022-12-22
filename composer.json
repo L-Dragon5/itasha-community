@@ -6,15 +6,19 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
+        "bref/bref": "^1.7",
+        "bref/laravel-bridge": "^1.2",
         "doctrine/dbal": "^3.3",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.4.0",
+        "hammerstone/sidecar-inertia": "^0.0.4",
         "inertiajs/inertia-laravel": "^0.5.1",
         "intervention/image": "^2.7",
         "laravel/framework": "^9.1",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.4",
+        "league/flysystem-aws-s3-v3": "^3.0",
         "owen-it/laravel-auditing": "^13.0"
     },
     "require-dev": {

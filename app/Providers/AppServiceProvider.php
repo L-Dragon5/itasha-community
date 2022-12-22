@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Hammerstone\Sidecar\Inertia\SidecarGateway;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 
@@ -14,7 +15,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        // Use Sidecar to run Inertia SSR.
+        $this->app->instance(Gateway::class, new SidecarGateway);
     }
 
     /**
