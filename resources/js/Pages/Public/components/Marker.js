@@ -35,7 +35,7 @@ const Marker = ({ info, ...options }) => {
             : ''
         }${
           info.cover_image
-            ? `<img src="/storage/${info.cover_image}" style="width: 200px;"/>`
+            ? `<img src="${info.cover_image}" style="width: 200px;"/>`
             : ''
         }</div>`;
     } else if (info.type === 'group' || info.type === 'designer') {

@@ -103,11 +103,10 @@ const Vehicles = ({ vehicles }) => {
       Cell: (cellInfo) => {
         const { original } = cellInfo.row;
         if (original.cover_image) {
-          const imgPath = `/storage/${original.cover_image}`;
           return (
             <Image
-              src={imgPath}
-              onClick={() => openImage(imgPath)}
+              src={original.cover_image}
+              onClick={() => openImage(original.cover_image)}
               alt="Vehicle"
               cursor="pointer"
             />

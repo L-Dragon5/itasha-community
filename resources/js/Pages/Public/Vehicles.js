@@ -48,16 +48,15 @@ const Vehicles = ({ vehicles }) => {
       Cell: (cellInfo) => {
         const { original } = cellInfo.row;
         if (original.cover_image) {
-          const imgPath = `/storage/${original.cover_image}`;
           return (
             <Box
               width="full"
               height="150px"
-              backgroundImage={`url(${imgPath})`}
+              backgroundImage={`url(${original.cover_image})`}
               backgroundPosition="center"
               backgroundRepeat="no-repeat"
               backgroundSize="cover"
-              onClick={() => openImage(imgPath)}
+              onClick={() => openImage(original.cover_image)}
               alt="Vehicle"
               cursor="pointer"
             />
