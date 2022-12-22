@@ -23,7 +23,9 @@ class VehicleController extends Controller
             ->get();
 
         foreach ($vehicles as &$vehicle) {
-            $vehicle->cover_image = Storage::url($vehicle->cover_image);
+            if (strlen($vehicle->cover_image) > 0) {
+                $vehicle->cover_image = Storage::url($vehicle->cover_image);
+            }
         }
 
         return Inertia::render('Public/Vehicles', [
@@ -43,7 +45,9 @@ class VehicleController extends Controller
             ->get();
 
         foreach ($vehicles as &$vehicle) {
-            $vehicle->cover_image = Storage::url($vehicle->cover_image);
+            if (strlen($vehicle->cover_image) > 0) {
+                $vehicle->cover_image = Storage::url($vehicle->cover_image);
+            }
         }
 
         return Inertia::render('Admin/Vehicles', [

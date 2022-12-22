@@ -36,7 +36,9 @@ class IndexController extends Controller
             ->get();
 
         foreach ($vehicles as &$vehicle) {
-            $vehicle->cover_image = Storage::url($vehicle->cover_image);
+            if (strlen($vehicle->cover_image) > 0) {
+                $vehicle->cover_image = Storage::url($vehicle->cover_image);
+            }
             $this->checkIfDuplicateCoords($coordinatesList, $vehicle);
             $locations[] = array_merge(['type' => 'vehicle'], $vehicle->toArray());
         }
