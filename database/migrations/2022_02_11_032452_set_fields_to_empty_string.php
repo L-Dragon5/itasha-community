@@ -36,17 +36,17 @@ class SetFieldsToEmptyString extends Migration
     public function down()
     {
         Schema::table('vehicles', function (Blueprint $table) {
-            $table->string('city')->nullable()->default(NULL)->change();
-            $table->string('state')->nullable()->default(NULL)->change();
+            $table->string('city')->nullable()->default(null)->change();
+            $table->string('state')->nullable()->default(null)->change();
         });
 
         Schema::table('designers', function (Blueprint $table) {
-            $table->string('city')->nullable()->default(NULL)->change();
-            $table->string('state')->nullable()->default(NULL)->change();
+            $table->string('city')->nullable()->default(null)->change();
+            $table->string('state')->nullable()->default(null)->change();
         });
 
         Schema::table('groups', function (Blueprint $table) {
-            $table->string('state')->nullable()->default(NULL)->change();
+            $table->string('state')->nullable()->default(null)->change();
         });
     }
 }

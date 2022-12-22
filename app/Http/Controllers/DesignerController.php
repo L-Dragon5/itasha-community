@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Designer;
 use App\Http\Requests\StoreDesignerRequest;
+use App\Models\Designer;
 use Inertia\Inertia;
 
 class DesignerController extends Controller
@@ -26,7 +26,7 @@ class DesignerController extends Controller
 
     /**
      * Display a listing of the resource on admin page.
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     public function adminIndex()
@@ -66,8 +66,8 @@ class DesignerController extends Controller
 
     /**
      * Approve the specified resource in storage.
-     * 
-     * @param \App\Models\Designer  $designer
+     *
+     * @param  \App\Models\Designer  $designer
      * @return \Illuminate\Http\Response
      */
     public function approve(Designer $designer)

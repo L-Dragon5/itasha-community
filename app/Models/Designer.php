@@ -10,7 +10,6 @@ class Designer extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
     use HasFactory;
-
     protected $fillable = [
         'name',
         'city',

@@ -11,7 +11,6 @@ class Vehicle extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
     use HasFactory;
-
     protected $fillable = [
         'vehicle_type',
         'series',
@@ -29,11 +28,12 @@ class Vehicle extends Model implements Auditable
         'cover_image',
     ];
 
-    protected static function booted() {
+    protected static function booted()
+    {
         static::deleting(function ($vehicle) {
             if (!empty($vehicle->cover_image) && $vehicle->cover_image !== 'placeholder.webp') {
                 Storage::delete($vehicle->cover_image);
             }
         });
-  }
+    }
 }

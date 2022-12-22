@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Vehicle;
 use App\Http\Requests\StoreVehicleRequest;
+use App\Models\Vehicle;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
@@ -29,7 +29,7 @@ class VehicleController extends Controller
 
     /**
      * Display a listing of the resource on admin page.
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     public function adminIndex()
@@ -98,8 +98,8 @@ class VehicleController extends Controller
 
     /**
      * Approve the specified resource in storage.
-     * 
-     * @param \App\Models\Vehicle  $vehicle
+     *
+     * @param  \App\Models\Vehicle  $vehicle
      * @return \Illuminate\Http\Response
      */
     public function approve(Vehicle $vehicle)

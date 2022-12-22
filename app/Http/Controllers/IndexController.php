@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Vehicle;
-use App\Models\Group;
 use App\Models\Designer;
+use App\Models\Group;
+use App\Models\Vehicle;
 use Inertia\Inertia;
 
 class IndexController extends Controller
@@ -54,7 +54,8 @@ class IndexController extends Controller
         ]);
     }
 
-    private function checkIfDuplicateCoords(&$coords, &$model) {
+    private function checkIfDuplicateCoords(&$coords, &$model)
+    {
         $valid = false;
 
         while (!$valid) {
@@ -69,7 +70,7 @@ class IndexController extends Controller
                 $valid = true;
             }
         }
-        
+
         return $valid;
     }
 }

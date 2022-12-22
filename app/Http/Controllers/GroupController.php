@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Group;
 use App\Http\Requests\StoreGroupRequest;
+use App\Models\Group;
 use Inertia\Inertia;
 
 class GroupController extends Controller
@@ -26,7 +26,7 @@ class GroupController extends Controller
 
     /**
      * Display a listing of the resource on admin page.
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     public function adminIndex()
@@ -66,8 +66,8 @@ class GroupController extends Controller
 
     /**
      * Approve the specified resource in storage.
-     * 
-     * @param \App\Models\Group  $group
+     *
+     * @param  \App\Models\Group  $group
      * @return \Illuminate\Http\Response
      */
     public function approve(Group $group)

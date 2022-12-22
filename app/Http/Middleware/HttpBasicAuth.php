@@ -17,6 +17,7 @@ class HttpBasicAuth
     {
         if ($request->getUser() != env('API_USERNAME') || $request->getPassword() != env('API_PASSWORD')) {
             $headers = ['WWW-Authenticate' => 'Basic'];
+
             return response('Unauthorized', 401, $headers);
         }
 

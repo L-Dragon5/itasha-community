@@ -38,7 +38,7 @@ class StoreDesignerRequest extends FormRequest
 
     /**
      * Prepare data for validation.
-     * 
+     *
      * @return void
      */
     protected function prepareForValidation(): void

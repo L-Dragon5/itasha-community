@@ -1,11 +1,11 @@
 <?php
 
-use Inertia\Inertia;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\DesignerController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\IndexController;
+use App\Http\Controllers\VehicleController;
+use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,9 +24,9 @@ Route::resource('vehicles', VehicleController::class)->only(['index', 'store']);
 Route::resource('designers', DesignerController::class)->only(['index', 'store']);
 Route::resource('groups', GroupController::class)->only(['index', 'store']);
 
-Route::get('/resources', fn() => Inertia::render('Public/Resources'));
+Route::get('/resources', fn () => Inertia::render('Public/Resources'));
 
-Route::middleware(['auth.basic'])->group(function() {
+Route::middleware(['auth.basic'])->group(function () {
     Route::resource('vehicles', VehicleController::class)->only(['update', 'destroy']);
     Route::patch('vehicles/{vehicle}/approve', [VehicleController::class, 'approve']);
 
@@ -37,9 +37,10 @@ Route::middleware(['auth.basic'])->group(function() {
     Route::patch('groups/{group}/approve', [GroupController::class, 'approve']);
 });
 
-Route::prefix('master')->middleware(['auth.basic'])->group(function() {
+Route::prefix('master')->middleware(['auth.basic'])->group(function () {
     Route::get('/', function () {
         $audits = \OwenIt\Auditing\Models\Audit::orderBy('created_at', 'desc')->get();
+
         return Inertia::render('Admin/Index', [
             'audits' => $audits,
         ]);
@@ -49,5 +50,5 @@ Route::prefix('master')->middleware(['auth.basic'])->group(function() {
     Route::get('/designers', [DesignerController::class, 'adminIndex']);
     Route::get('/groups', [GroupController::class, 'adminIndex']);
 
-    Route::get('/resources', fn() => Inertia::render('Admin/Resources'));
+    Route::get('/resources', fn () => Inertia::render('Admin/Resources'));
 });

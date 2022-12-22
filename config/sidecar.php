@@ -7,7 +7,7 @@ return [
      * All of your function classes that you'd like to deploy go here.
      */
     'functions' => [
-        \Hammerstone\Sidecar\Inertia\SSR::class
+        \Hammerstone\Sidecar\Inertia\SSR::class,
         // \App\Sidecar\RenderOgImage::class,
         // \App\Sidecar\ProcessThumbnail::class,
     ],
