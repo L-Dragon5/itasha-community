@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Designer;
 use App\Models\Group;
 use App\Models\Vehicle;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class IndexController extends Controller
@@ -34,7 +35,8 @@ class IndexController extends Controller
             ->whereNotNull('lng')
             ->get();
 
-        foreach ($vehicles as $vehicle) {
+        foreach ($vehicles as &$vehicle) {
+            $vehicle->cover_image = Storage::url($vehicle->cover_image);
             $this->checkIfDuplicateCoords($coordinatesList, $vehicle);
             $locations[] = array_merge(['type' => 'vehicle'], $vehicle->toArray());
         }

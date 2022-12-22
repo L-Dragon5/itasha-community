@@ -22,6 +22,10 @@ class VehicleController extends Controller
             ->orderBy('character')
             ->get();
 
+        foreach ($vehicles as &$vehicle) {
+            $vehicle->cover_image = Storage::url($vehicle->cover_image);
+        }
+
         return Inertia::render('Public/Vehicles', [
             'vehicles' => $vehicles,
         ]);
@@ -37,6 +41,10 @@ class VehicleController extends Controller
         $vehicles = Vehicle::orderBy('is_approved')
             ->orderBy('created_at')
             ->get();
+
+        foreach ($vehicles as &$vehicle) {
+            $vehicle->cover_image = Storage::url($vehicle->cover_image);
+        }
 
         return Inertia::render('Admin/Vehicles', [
             'vehicles' => $vehicles,
