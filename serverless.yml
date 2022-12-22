@@ -7,7 +7,6 @@ provider:
     # The stage of the application, e.g. dev, production, staging… ('dev' is the default)
     stage: production
     runtime: provided.al2
-    lambdaHashingVersion: 20201221
     environment:
       # ENV variable for Laravel
       AWS_BUCKET: !Ref ItashaCommunityImages
@@ -37,6 +36,7 @@ functions:
         timeout: 28 # in seconds (API Gateway has a timeout of 29 seconds)
         layers:
             - ${bref:layer.php-80-fpm}
+            - ${bref-extra:mongodb-php-80}
         events:
             - httpApi: '*'
     # This function lets us run artisan commands in Lambda
@@ -50,6 +50,7 @@ functions:
 plugins:
   - ./vendor/bref/bref
   - serverless-lift
+  - ./vendor/bref/extra-php-extensions
 
 constructs:
   website:
