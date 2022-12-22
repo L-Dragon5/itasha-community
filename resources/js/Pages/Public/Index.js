@@ -136,8 +136,8 @@ const Index = ({ locations }) => {
               <Marker
                 key={`${loc._id} + ${loc.name}`}
                 position={{
-                  lng: parseFloat(loc.lng),
-                  lat: parseFloat(loc.lat),
+                  lng: parseFloat(loc.lng.$numberDecimal),
+                  lat: parseFloat(loc.lat.$numberDecimal),
                 }}
                 info={loc}
               />
