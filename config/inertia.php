@@ -20,8 +20,6 @@ return [
 
         'enabled' => true,
 
-        'url' => 'http://127.0.0.1:13714/render',
-
         'sidecar' => [
             // The Sidecar function that handles the SSR.
             'handler' => \Hammerstone\Sidecar\Inertia\SSR::class,

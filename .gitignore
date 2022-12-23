@@ -3,6 +3,7 @@
 /public/storage
 /public/js
 /storage/*.key
+/storage/*.zip
 /vendor
 .env
 .env.*
